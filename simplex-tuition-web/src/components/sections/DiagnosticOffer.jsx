@@ -1,8 +1,19 @@
 import { useNavigate } from 'react-router-dom'
 import styles from './DiagnosticOffer.module.css'
+import { trackEvent } from '../../hooks/useAnalytics'
 
 export default function DiagnosticOffer({ pathId }) {
   const navigate = useNavigate()
+
+  const handleYes = () => {
+    trackEvent('diagnostic_started', { path: pathId })
+    navigate(`/diagnostic?path=${pathId}`)
+  }
+
+  const handleSkip = () => {
+    trackEvent('diagnostic_skipped', { path: pathId })
+    navigate('/thank-you')
+  }
 
   return (
     <div className={styles.offer}>
@@ -18,18 +29,10 @@ export default function DiagnosticOffer({ pathId }) {
             </p>
           </div>
           <div className={styles.actions}>
-            <button
-              className="btn-primary"
-              data-cy="diagnostic-offer-yes"
-              onClick={() => navigate(`/diagnostic?path=${pathId}`)}
-            >
+            <button className="btn-primary" data-cy="diagnostic-offer-yes" onClick={handleYes}>
               Yes, take the diagnostic →
             </button>
-            <button
-              className={styles.skip}
-              data-cy="diagnostic-offer-skip"
-              onClick={() => navigate('/thank-you')}
-            >
+            <button className={styles.skip} data-cy="diagnostic-offer-skip" onClick={handleSkip}>
               No thanks, just call me
             </button>
           </div>
