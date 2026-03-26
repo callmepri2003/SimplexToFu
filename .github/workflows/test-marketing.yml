@@ -46,6 +46,7 @@ jobs:
           wait-on-timeout: 60
         env:
           VITE_FORMSPREE_URL: https://formspree.io/f/xlddjnre
+          CYPRESS_BASE_URL: http://localhost:4173
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
