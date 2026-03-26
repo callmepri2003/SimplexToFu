@@ -115,7 +115,7 @@ export default function CallbackForm({ pathId, onSubmitted }) {
 
             <p className={styles.promise}>
               I'll call you within 24 hours. If it's urgent, call me directly:&nbsp;
-              <a href="tel:+61400000000" className={styles.phone}>0400 000 000</a>
+              <a href="tel:+61452330300" className={styles.phone}>0452 330 300</a>
             </p>
           </form>
         </div>
