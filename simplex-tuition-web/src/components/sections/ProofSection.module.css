@@ -1,0 +1,116 @@
+.section {
+  background: var(--brand-white);
+  padding: var(--section-padding);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 72px;
+  align-items: center;
+}
+
+.stars {
+  color: #f59e0b;
+  font-size: var(--text-xl);
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+}
+
+.quote {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-style: italic;
+  color: var(--brand-ink);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.attribution {
+  color: var(--brand-muted);
+  font-size: var(--text-sm);
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.stat {
+  padding-left: 20px;
+  border-left: 3px solid var(--brand-navy);
+}
+
+.statNumber {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  color: var(--brand-navy);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.statLabel {
+  font-size: var(--text-sm);
+  color: var(--brand-muted);
+}
+
+.space {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  padding-top: 48px;
+  border-top: 1px solid var(--brand-border);
+}
+
+.label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--brand-navy);
+  margin-bottom: 12px;
+}
+
+.spaceHeading {
+  font-size: var(--text-2xl);
+  color: var(--brand-ink);
+  margin-bottom: 16px;
+  font-weight: 400;
+}
+
+.spaceBody {
+  color: var(--brand-slate);
+  line-height: 1.7;
+}
+
+.spaceImagePlaceholder {
+  aspect-ratio: 4/3;
+  background: var(--brand-cream);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 2px dashed var(--brand-border);
+}
+
+.spaceImagePlaceholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imagePlaceholderInner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-muted);
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 768px) {
+  .grid, .space { grid-template-columns: 1fr; gap: 32px; }
+  .quote { font-size: var(--text-xl); }
+}

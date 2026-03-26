@@ -1,0 +1,106 @@
+.section {
+  background: var(--brand-cream);
+  padding: var(--section-padding);
+}
+
+.inner { max-width: 560px; }
+
+.label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--brand-navy);
+  margin-bottom: 12px;
+}
+
+.heading {
+  font-size: var(--text-3xl);
+  color: var(--brand-ink);
+  margin-bottom: 12px;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.sub {
+  color: var(--brand-muted);
+  margin-bottom: 40px;
+  font-size: var(--text-base);
+}
+
+.form { display: flex; flex-direction: column; gap: 24px; }
+
+.field { display: flex; flex-direction: column; gap: 8px; }
+
+.fieldLabel {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--brand-ink);
+}
+
+.optional { font-weight: 400; color: var(--brand-muted); }
+
+.input, .select, .textarea {
+  padding: 14px 16px;
+  border: 2px solid var(--brand-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--brand-ink);
+  background: white;
+  transition: border-color 200ms ease;
+  width: 100%;
+  appearance: none;
+}
+
+.input:focus, .select:focus, .textarea:focus {
+  outline: none;
+  border-color: var(--brand-navy);
+}
+
+.textarea { resize: vertical; }
+
+.timeButtons { display: flex; flex-direction: column; gap: 8px; }
+
+.timeBtn {
+  padding: 14px 20px;
+  border: 2px solid var(--brand-border);
+  border-radius: var(--radius-md);
+  background: white;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--brand-slate);
+  cursor: pointer;
+  text-align: left;
+  transition: all 200ms ease;
+}
+
+.timeBtn:hover { border-color: var(--brand-navy); }
+
+.timeBtnActive {
+  border-color: var(--brand-navy);
+  background: var(--brand-navy);
+  color: white;
+}
+
+.error {
+  color: #dc2626;
+  font-size: var(--text-sm);
+  padding: 12px 16px;
+  background: #fef2f2;
+  border-radius: var(--radius-md);
+}
+
+.submit { width: 100%; font-size: var(--text-lg); min-height: 60px; }
+
+.promise {
+  font-size: var(--text-sm);
+  color: var(--brand-muted);
+  text-align: center;
+}
+
+.phone {
+  color: var(--brand-navy);
+  font-weight: 600;
+  text-decoration: none;
+}
