@@ -1,0 +1,90 @@
+.setup, .handoff {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.setupCard, .handoffCard {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: var(--shadow-md);
+}
+
+.setupHeading, .handoffHeading {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  color: var(--brand-ink);
+  margin-bottom: 8px;
+  font-weight: 400;
+}
+
+.setupSub, .handoffBody {
+  color: var(--brand-muted);
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+.setupField { margin-bottom: 24px; }
+
+.setupLabel {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--brand-ink);
+  margin-bottom: 10px;
+}
+
+.setupButtons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.setupBtn {
+  padding: 10px 20px;
+  border: 2px solid var(--brand-border);
+  border-radius: var(--radius-md);
+  background: white;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--brand-slate);
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.setupBtn:hover { border-color: var(--brand-navy); }
+
+.setupBtnActive {
+  border-color: var(--brand-navy);
+  background: var(--brand-navy);
+  color: white;
+}
+
+.handoffEmoji { font-size: 40px; margin-bottom: 16px; }
+
+.flow { padding: 40px 0; }
+
+.progressBar {
+  height: 4px;
+  background: var(--brand-border);
+  margin-bottom: 32px;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--brand-navy);
+  transition: width 300ms ease;
+}
+
+.counter {
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--brand-muted);
+  margin-bottom: 40px;
+  font-weight: 500;
+}

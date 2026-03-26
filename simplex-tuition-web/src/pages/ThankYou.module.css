@@ -1,0 +1,53 @@
+.page {
+  min-height: 100vh;
+  background: var(--brand-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.card {
+  max-width: 480px;
+  text-align: center;
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 56px 40px;
+  box-shadow: var(--shadow-md);
+}
+
+.icon { font-size: 56px; margin-bottom: 24px; }
+
+.heading {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  color: var(--brand-ink);
+  margin-bottom: 16px;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.body {
+  color: var(--brand-slate);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.phone {
+  display: block;
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--brand-navy);
+  text-decoration: none;
+  margin-bottom: 32px;
+}
+
+.phone:hover { color: var(--brand-navy-dark); }
+
+.back {
+  font-size: var(--text-sm);
+  color: var(--brand-muted);
+  text-decoration: none;
+}
+
+.back:hover { color: var(--brand-slate); }
