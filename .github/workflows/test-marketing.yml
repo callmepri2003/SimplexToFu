@@ -2,7 +2,7 @@ name: Test — simplex-tuition-web
 
 on:
   push:
-    branches: [main, feat/marketing-site]
+    branches: [main]
   pull_request:
     branches: [main]
 
