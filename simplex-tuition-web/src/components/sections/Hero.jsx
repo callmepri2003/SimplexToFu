@@ -1,10 +1,12 @@
 import { paths, defaultPath } from '../../data/pathContent'
+import { trackEvent } from '../../hooks/useAnalytics'
 import styles from './Hero.module.css'
 
 export default function Hero({ pathId }) {
   const content = paths[pathId] ?? defaultPath
 
   const scrollToForm = () => {
+    trackEvent('hero_cta_clicked', { path: pathId })
     document.getElementById('callback-form')?.scrollIntoView({ behavior: 'smooth' })
   }
 

@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './WelcomeModal.module.css'
+import { trackEvent } from '../hooks/useAnalytics'
 
 const STEPS = {
   WHO: 'who',
@@ -25,9 +26,14 @@ export default function WelcomeModal({ onComplete }) {
   const [school, setSchool] = useState(null)
   const [visible, setVisible] = useState(true)
 
+  useEffect(() => {
+    trackEvent('modal_opened')
+  }, [])
+
   const concerns = school === 'primary' ? CONCERNS_PRIMARY : CONCERNS_HIGH
 
   const handleWho = (selection) => {
+    trackEvent('modal_who_selected', { who: selection })
     if (selection === 'student') {
       finish('student')
     } else {
@@ -36,15 +42,18 @@ export default function WelcomeModal({ onComplete }) {
   }
 
   const handleSchool = (selection) => {
+    trackEvent('modal_school_selected', { school: selection })
     setSchool(selection)
     setStep(STEPS.CONCERN)
   }
 
   const handleConcern = (concern) => {
+    trackEvent('modal_concern_selected', { concern })
     finish(concern)
   }
 
   const finish = (pathId) => {
+    trackEvent('path_selected', { path: pathId })
     setVisible(false)
     setTimeout(() => onComplete(pathId), 300)
   }

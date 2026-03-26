@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { getQuestions } from '../../data/diagnosticQuestions'
+import { trackEvent } from '../../hooks/useAnalytics'
 import QuestionCard from './QuestionCard'
 import DiagnosticComplete from './DiagnosticComplete'
 import styles from './DiagnosticFlow.module.css'
@@ -26,6 +27,7 @@ export default function DiagnosticFlow() {
       setCurrentIndex(currentIndex + 1)
     } else {
       setStage('complete')
+      trackEvent('diagnostic_completed', { subject, level, path: pathId })
       submitResults(newAnswers)
     }
   }

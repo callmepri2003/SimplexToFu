@@ -23,7 +23,7 @@ describe('Diagnostic Offer — Post-Form', () => {
 
 describe('Diagnostic Flow — Full journey (maths, high school)', () => {
   beforeEach(() => {
-    cy.intercept('POST', '**', { statusCode: 200, body: { ok: true } }).as('submit')
+    cy.intercept('POST', '**/formspree.io/**', { statusCode: 200, body: { ok: true } }).as('formspreeSubmit')
     cy.visit('/diagnostic?path=struggling')
   })
 
@@ -44,7 +44,7 @@ describe('Diagnostic Flow — Full journey (maths, high school)', () => {
       cy.get('[data-cy^="question-option-"]').first().click()
       cy.wait(450)
     }
-    cy.wait('@submit').its('request.body').then((body) => {
+    cy.wait('@formspreeSubmit').its('request.body').then((body) => {
       expect(body).to.have.property('subject')
       expect(body).to.have.property('score')
       expect(body).to.have.property('path', 'struggling')
@@ -54,7 +54,7 @@ describe('Diagnostic Flow — Full journey (maths, high school)', () => {
 
 describe('Diagnostic — Formspree failure is silent', () => {
   it('complete screen still shows when Formspree is down', () => {
-    cy.intercept('POST', '**', { statusCode: 500 })
+    cy.intercept('POST', '**/formspree.io/**', { statusCode: 500 })
     cy.visit('/diagnostic?path=struggling')
     cy.get('[data-cy="diagnostic-start"]').click()
     cy.get('[data-cy="diagnostic-handoff-confirm"]').click()
