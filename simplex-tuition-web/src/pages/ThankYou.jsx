@@ -10,7 +10,7 @@ export default function ThankYou() {
         <p className={styles.body}>
           I'll call you within 24 hours. If it's urgent, call directly:
         </p>
-        <a href="tel:+61400000000" className={styles.phone}>0452330300</a>
+        <a href="tel:+61452330300" className={styles.phone}>0452 330 300</a>
         <Link to="/" className={styles.back}>← Back to home</Link>
       </div>
     </div>
