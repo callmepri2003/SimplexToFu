@@ -39,9 +39,7 @@ export default function ProofSection() {
             </p>
           </div>
           <div className={styles.spaceImagePlaceholder}>
-            <div className={styles.imagePlaceholderInner}>
-              📸 Add your garage photo here
-            </div>
+            <img src="/garage.jpg" alt="Simplex Tuition space" />
           </div>
         </div>
       </div>
