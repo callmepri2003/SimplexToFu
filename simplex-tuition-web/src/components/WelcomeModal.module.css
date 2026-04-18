@@ -1,7 +1,7 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(26, 26, 46, 0.7);
+  background: rgba(26, 26, 46, 0.72); /* --brand-ink at 72% opacity */
   backdrop-filter: blur(8px);
   z-index: 1000;
   display: flex;
@@ -87,7 +87,7 @@
 
 .option:hover {
   border-color: var(--brand-navy);
-  background: #f0f5ff;
+  background: var(--brand-navy-light);
   transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
 }
@@ -130,7 +130,7 @@
 
 .concernOption:hover {
   border-color: var(--brand-navy);
-  background: #f0f5ff;
+  background: var(--brand-navy-light);
 }
 
 .concernEmoji { font-size: 20px; }

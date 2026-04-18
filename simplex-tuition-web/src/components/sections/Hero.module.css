@@ -8,8 +8,8 @@
 
 .badge {
   display: inline-block;
-  background: #fff8f5;
-  border: 1px solid #ffd4c2;
+  background: var(--brand-accent-light);
+  border: 1px solid var(--brand-accent-border);
   color: var(--brand-accent);
   font-size: var(--text-sm);
   font-weight: 600;

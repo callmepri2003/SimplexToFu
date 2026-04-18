@@ -12,7 +12,7 @@
 }
 
 .stars {
-  color: #f59e0b;
+  color: var(--brand-star);
   font-size: var(--text-xl);
   margin-bottom: 16px;
   letter-spacing: 2px;

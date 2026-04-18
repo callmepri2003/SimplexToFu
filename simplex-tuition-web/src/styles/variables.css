@@ -1,37 +1,57 @@
 :root {
-  --brand-navy: #004aad;
-  --brand-navy-dark: #003380;
-  --brand-cream: #fafaf7;
-  --brand-ink: #1a1a2e;
-  --brand-slate: #4a4a6a;
-  --brand-muted: #8888aa;
-  --brand-accent: #ff6b35;
-  --brand-success: #16a34a;
-  --brand-border: #e8e8f0;
+  /* ── Core brand ─────────────────────────────────────────────────────────── */
+  --brand-navy: #004aad;          /* primary blue — CTAs, headings, borders   */
+  --brand-navy-dark: #003380;     /* navy hover state                         */
+  --brand-navy-light: #e8f1ff;    /* tinted blue fill — hover states, badges  */
+
+  /* ── Neutrals ───────────────────────────────────────────────────────────── */
+  --brand-cream: #fafaf7;         /* page background                          */
   --brand-white: #ffffff;
+  --brand-ink: #1a1a2e;           /* headlines, maximum contrast text         */
+  --brand-slate: #475569;         /* body text                                */
+  --brand-muted: #94a3b8;         /* captions, labels, secondary text         */
+  --brand-border: #e8e8f0;        /* dividers, card borders                   */
 
-  --font-display: 'Fraunces', Georgia, serif;
-  --font-body: 'DM Sans', -apple-system, sans-serif;
+  /* ── Accent & status ────────────────────────────────────────────────────── */
+  --brand-accent: #ff6b35;        /* orange — primary CTA, highlights         */
+  --brand-accent-hover: #e55a25;  /* accent hover / pressed                   */
+  --brand-accent-light: #fff8f5;  /* accent tinted background                 */
+  --brand-accent-border: #ffd4c2; /* accent tinted border                     */
 
-  --text-xs: 12px;
-  --text-sm: 14px;
+  --brand-success: #16a34a;       /* correct answers, positive callouts       */
+  --brand-warning: #d97706;       /* caution boxes, amber highlights          */
+  --brand-danger: #dc2626;        /* errors, misconceptions                   */
+  --brand-danger-light: #fef2f2;  /* danger tinted background                 */
+
+  --brand-star: #f59e0b;          /* star / rating colour                     */
+
+  /* ── Typography ─────────────────────────────────────────────────────────── */
+  --font-display: 'Fraunces', Georgia, serif;   /* headlines, pull quotes     */
+  --font-body: 'DM Sans', -apple-system, sans-serif; /* all body copy        */
+
+  /* ── Type scale ─────────────────────────────────────────────────────────── */
+  --text-xs:   12px;
+  --text-sm:   14px;
   --text-base: 16px;
-  --text-lg: 18px;
-  --text-xl: 22px;
-  --text-2xl: 28px;
-  --text-3xl: 36px;
-  --text-4xl: 48px;
-  --text-5xl: 64px;
+  --text-lg:   18px;
+  --text-xl:   22px;
+  --text-2xl:  28px;
+  --text-3xl:  36px;
+  --text-4xl:  48px;
+  --text-5xl:  64px;
 
+  /* ── Border radius ───────────────────────────────────────────────────────── */
   --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 20px;
   --radius-xl: 32px;
 
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
-  --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
-  --shadow-lg: 0 24px 48px rgba(0,0,0,0.12);
+  /* ── Shadows ─────────────────────────────────────────────────────────────── */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.12);
 
+  /* ── Layout ──────────────────────────────────────────────────────────────── */
   --max-width: 1100px;
   --section-padding: 96px 24px;
   --section-padding-mobile: 64px 20px;

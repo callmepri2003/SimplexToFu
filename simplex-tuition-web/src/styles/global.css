@@ -88,5 +88,5 @@ h1, h2, h3 {
 }
 
 .btn-accent:hover {
-  background: #e55a25;
+  background: var(--brand-accent-hover);
 }
