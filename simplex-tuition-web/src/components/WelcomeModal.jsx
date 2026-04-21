@@ -55,7 +55,7 @@ export default function WelcomeModal({ onComplete }) {
   const finish = (pathId) => {
     trackEvent('path_selected', { path: pathId })
     setVisible(false)
-    setTimeout(() => onComplete(pathId), 300)
+    onComplete(pathId)
   }
 
   if (!visible) return null
