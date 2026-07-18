@@ -1,15 +1,11 @@
-import { Camera, Cap, Clock, Users, Book, Star } from '../icons'
+import { Cap, Clock, Users, Book, Star } from '../icons'
 
 export default function MeetTutors() {
   return (
     <section className="block about" id="about">
       <div className="wrap about-grid">
         <div className="photo-slot about-photo">
-          <div className="ph-inner">
-            <Camera />
-            <div className="t">Photo of a tutor</div>
-            <div className="d">A tutor working with a student, or a small team shot</div>
-          </div>
+          <img src="/tutors.jpg" alt="Simplex tutors working through a problem with a student" loading="lazy" />
         </div>
         <div>
           <span className="eyebrow">Meet the tutors</span>

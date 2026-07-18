@@ -1,6 +1,6 @@
 import { paths, defaultPath } from '../../data/pathContent'
 import { trackEvent } from '../../hooks/useAnalytics'
-import { ArrowRight, Check, MapPin, Book, Cap, Camera, Stars } from '../icons'
+import { ArrowRight, Check, MapPin, Book, Cap, Stars } from '../icons'
 
 export default function Hero({ pathId }) {
   const content = paths[pathId] ?? defaultPath
@@ -32,11 +32,7 @@ export default function Hero({ pathId }) {
 
         <div className="hero-media">
           <div className="photo-slot hero-photo">
-            <div className="ph-inner">
-              <Camera />
-              <div className="t">Hero photo goes here</div>
-              <div className="d">A tutor and student mid-lesson, warm and natural</div>
-            </div>
+            <img src="/hero-tutoring.jpg" alt="A Simplex tutor helping a student work through a problem" loading="eager" />
           </div>
           <div className="result-float">
             <Stars />
