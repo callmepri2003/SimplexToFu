@@ -6,6 +6,8 @@ import './styles/redesign.css'
 import Home from './pages/Home'
 import Diagnostic from './pages/Diagnostic'
 import ThankYou from './pages/ThankYou'
+import LocationsHub from './pages/LocationsHub'
+import LocationPage from './pages/LocationPage'
 import { captureAttribution } from './utils/attribution'
 
 captureAttribution()
@@ -15,6 +17,8 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/tutoring" element={<LocationsHub />} />
+        <Route path="/tutoring/:suburb" element={<LocationPage />} />
         <Route path="/diagnostic" element={<Diagnostic />} />
         <Route path="/thank-you" element={<ThankYou />} />
       </Routes>

@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom'
 import { Logo } from './icons'
+import { locations } from '../data/locations'
 
 export default function Footer() {
   return (
@@ -15,6 +17,13 @@ export default function Footer() {
             <a href="#results">Results</a>
             <a href="#why">Why Simplex</a>
             <a href="#faq">Questions</a>
+          </div>
+          <div className="foot-col">
+            <h4>Areas we serve</h4>
+            <Link to="/tutoring">All areas</Link>
+            {locations.slice(0, 6).map((l) => (
+              <Link key={l.slug} to={`/tutoring/${l.slug}`}>{l.name}</Link>
+            ))}
           </div>
           <div className="foot-col">
             <h4>Get in touch</h4>
