@@ -44,14 +44,14 @@ describe('CallbackForm', () => {
 
   it('selecting a time button marks it as active', () => {
     cy.get('[data-cy="form-time-btn-0"]').click()
-    cy.get('[data-cy="form-time-btn-0"]').should('have.class', /timeBtnActive/)
+    cy.get('[data-cy="form-time-btn-0"]').should('have.class', 'on')
   })
 
   it('selecting a different time button deactivates the previous one', () => {
     cy.get('[data-cy="form-time-btn-0"]').click()
     cy.get('[data-cy="form-time-btn-1"]').click()
-    cy.get('[data-cy="form-time-btn-0"]').should('not.have.class', /timeBtnActive/)
-    cy.get('[data-cy="form-time-btn-1"]').should('have.class', /timeBtnActive/)
+    cy.get('[data-cy="form-time-btn-0"]').should('not.have.class', 'on')
+    cy.get('[data-cy="form-time-btn-1"]').should('have.class', 'on')
   })
 
   it('calls onSubmitted after a successful submission', () => {

@@ -1,17 +1,17 @@
 const paths = [
-  { id: 'struggling', modal: { who: 'parent', school: 'high', concern: 'struggling' }, headline: "isn't behind" },
-  { id: 'assessment', modal: { who: 'parent', school: 'high', concern: 'assessment' }, headline: "still time" },
-  { id: 'selective', modal: { who: 'parent', school: 'high', concern: 'selective' }, headline: 'Selective school' },
-  { id: 'ahead', modal: { who: 'parent', school: 'high', concern: 'ahead' }, headline: "Good isn't good enough" },
-  { id: 'student', modal: { who: 'student' }, headline: 'Actually understand it' },
+  { id: 'struggling', headline: "isn't behind" },
+  { id: 'assessment', headline: 'still time' },
+  { id: 'selective', headline: 'Selective school' },
+  { id: 'ahead', headline: "Good isn't good enough" },
+  { id: 'student', headline: 'Actually understand it' },
 ]
 
-paths.forEach(({ id, modal, headline }) => {
+paths.forEach(({ id, headline }) => {
   describe(`Path: ${id}`, () => {
     before(() => {
       cy.resetVisitorState()
+      cy.seedPath(id)
       cy.visit('/')
-      cy.completeModal(modal)
     })
 
     it(`hero headline matches path ${id}`, () => {
@@ -20,15 +20,14 @@ paths.forEach(({ id, modal, headline }) => {
   })
 })
 
-describe('Path persistence across reload', () => {
+describe('Path persistence from stored path', () => {
   before(() => {
     cy.resetVisitorState()
     cy.seedPath('selective')
     cy.visit('/')
   })
 
-  it('hero headline matches selective without modal', () => {
-    cy.get('[data-cy="welcome-modal"]').should('not.exist')
+  it('hero headline matches the stored selective path', () => {
     cy.get('[data-cy="hero-headline"]').should('contain.text', 'Selective school')
   })
 })

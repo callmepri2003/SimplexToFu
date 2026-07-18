@@ -1,31 +1,39 @@
 import { useState } from 'react'
-import WelcomeModal from '../components/WelcomeModal'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 import Hero from '../components/sections/Hero'
+import TrustStrip from '../components/sections/TrustStrip'
 import HowItWorks from '../components/sections/HowItWorks'
-import ProofSection from '../components/sections/ProofSection'
+import Results from '../components/sections/Results'
+import WhySimplex from '../components/sections/WhySimplex'
+import MeetTutors from '../components/sections/MeetTutors'
+import FAQ from '../components/sections/FAQ'
 import CallbackForm from '../components/sections/CallbackForm'
 import DiagnosticOffer from '../components/sections/DiagnosticOffer'
 import { useVisitorPath } from '../hooks/useVisitorPath'
 
 export default function Home() {
-  const { path, modalSeen, savePath } = useVisitorPath()
+  const { path } = useVisitorPath()
   const [submitted, setSubmitted] = useState(false)
 
   const activePath = path ?? 'struggling'
 
   return (
     <>
-      {!modalSeen && (
-        <WelcomeModal onComplete={savePath} />
-      )}
+      <Header />
       <Hero pathId={activePath} />
+      <TrustStrip />
       <HowItWorks pathId={activePath} />
-      <ProofSection />
+      <Results />
+      <WhySimplex />
+      <MeetTutors />
+      <FAQ />
       {!submitted ? (
         <CallbackForm pathId={activePath} onSubmitted={() => setSubmitted(true)} />
       ) : (
         <DiagnosticOffer pathId={activePath} />
       )}
+      <Footer />
     </>
   )
 }

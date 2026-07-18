@@ -1,8 +1,8 @@
 export const paths = {
   struggling: {
     id: 'struggling',
-    heroHeadline: 'Your child isn\'t behind — they just haven\'t been taught the right way yet.',
-    heroSub: 'At Simplex Tuition, every student gets a personalised plan built around their exact gaps — not a generic worksheet.',
+    heroHeadline: 'Your child isn\'t behind. They just haven\'t been taught the way they learn.',
+    heroSub: 'One-to-one maths & English tutoring built around your child\'s exact gaps, not a generic worksheet.',
     heroCTA: 'Book a free trial lesson',
     howItWorksIntro: 'Here\'s how we turn confusion into confidence.',
     callbackHeadline: 'Let\'s talk about getting your child back on track.',
@@ -10,7 +10,7 @@ export const paths = {
   },
   assessment: {
     id: 'assessment',
-    heroHeadline: 'There\'s still time — and a clear plan makes all the difference.',
+    heroHeadline: 'There\'s still time, and a clear plan makes all the difference.',
     heroSub: 'Focused, targeted preparation for upcoming assessments. We identify exactly what the exam tests and build your child\'s preparation around that.',
     heroCTA: 'Book a free trial lesson',
     howItWorksIntro: 'Here\'s how we prepare students for what\'s actually on the test.',
@@ -19,7 +19,7 @@ export const paths = {
   },
   selective: {
     id: 'selective',
-    heroHeadline: 'Selective school preparation that actually prepares — not just practices.',
+    heroHeadline: 'Selective school preparation that actually prepares, not just practices.',
     heroSub: 'The difference between passing and failing selective entry is strategy. We build yours around your child\'s specific strengths and gaps.',
     heroCTA: 'Book a free trial lesson',
     howItWorksIntro: 'Here\'s how we prepare students for selective entry.',
@@ -37,7 +37,7 @@ export const paths = {
   },
   student: {
     id: 'student',
-    heroHeadline: 'Actually understand it — not just memorise it for the test.',
+    heroHeadline: 'Actually understand it, not just memorise it for the test.',
     heroSub: 'Tutoring that makes maths and English click. Built around you, not a textbook.',
     heroCTA: 'Book a free trial',
     howItWorksIntro: 'Here\'s how it works.',

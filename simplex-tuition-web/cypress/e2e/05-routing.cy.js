@@ -1,7 +1,7 @@
 describe('Routing', () => {
   it('/ loads the home page', () => {
     cy.resetVisitorState(); cy.visit('/')
-    cy.get('[data-cy="welcome-modal"]').should('be.visible')
+    cy.get('[data-cy="hero-headline"]').should('be.visible')
   })
 
   it('/diagnostic loads the diagnostic page', () => {

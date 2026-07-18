@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react'
-import styles from './CallbackForm.module.css'
 import { paths, defaultPath } from '../../data/pathContent'
 import { trackEvent, trackLead } from '../../hooks/useAnalytics'
 import { getAttribution } from '../../utils/attribution'
+import { Check, Phone, ArrowRight, Shield } from '../icons'
 
 const YEAR_LEVELS = [
   'Kindergarten', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6',
@@ -13,9 +13,7 @@ const TIMES = ['Morning (8am–12pm)', 'Afternoon (12pm–5pm)', 'Evening (5pm�
 
 export default function CallbackForm({ pathId, onSubmitted }) {
   const content = paths[pathId] ?? defaultPath
-  const [form, setForm] = useState({
-    name: '', phone: '', yearLevel: '', bestTime: '', notes: '',
-  })
+  const [form, setForm] = useState({ name: '', phone: '', yearLevel: '', bestTime: '', notes: '' })
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const hasTrackedStart = useRef(false)
@@ -57,69 +55,73 @@ export default function CallbackForm({ pathId, onSubmitted }) {
   }
 
   return (
-    <section className={styles.section} id="callback-form" data-cy="callback-form">
-      <div className="container">
-        <div className={styles.inner}>
-          <div className={styles.header}>
-            <div className={styles.label}>Get in touch</div>
-            <h2 className={styles.heading}>{content.callbackHeadline}</h2>
-            <p className={styles.sub}>{content.callbackSub}</p>
+    <section className="block cta-final" id="book" data-cy="callback-form">
+      <div className="wrap cta-grid">
+        <div className="cta-copy">
+          <span className="eyebrow">Book a free trial</span>
+          <h2>{content.callbackHeadline}</h2>
+          <p>{content.callbackSub}</p>
+          <div className="cta-assure">
+            <div className="a"><Check /> Free first lesson, no obligation to continue</div>
+            <div className="a"><Check /> A real person calls you, never a call centre</div>
+            <div className="a"><Check /> No contracts and no pressure</div>
+            <div className="a"><Check /> $70/hour flat, siblings save $10/hour each</div>
           </div>
+          <div className="cta-phone"><Phone /> Prefer to talk now? <a href="tel:+61452330300">0452 330 300</a></div>
+        </div>
 
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <div className={styles.field}>
-              <label className={styles.fieldLabel}>Your name *</label>
-              <input className={styles.input} type="text" value={form.name} onChange={set('name')} placeholder="e.g. Sarah Johnson" data-cy="form-name" required />
+        <div className="form-card">
+          <form onSubmit={handleSubmit}>
+            <h3>Book your free trial</h3>
+            <p className="sub">Tell us when suits and we'll confirm within 24 hours. Takes about 30 seconds.</p>
+
+            <div className="field">
+              <label>Your name *</label>
+              <input type="text" value={form.name} onChange={set('name')} placeholder="e.g. Sarah Johnson" data-cy="form-name" required />
             </div>
 
-            <div className={styles.field}>
-              <label className={styles.fieldLabel}>Phone number *</label>
-              <input className={styles.input} type="tel" value={form.phone} onChange={set('phone')} placeholder="e.g. 0412 345 678" data-cy="form-phone" required />
+            <div className="field">
+              <label>Phone number *</label>
+              <input type="tel" value={form.phone} onChange={set('phone')} placeholder="e.g. 0412 345 678" data-cy="form-phone" required />
             </div>
 
-            <div className={styles.field}>
-              <label className={styles.fieldLabel}>Child's year level *</label>
-              <select className={styles.select} value={form.yearLevel} onChange={set('yearLevel')} data-cy="form-year-level" required>
+            <div className="field">
+              <label>Child's year level *</label>
+              <select value={form.yearLevel} onChange={set('yearLevel')} data-cy="form-year-level" required>
                 <option value="">Select year level</option>
                 {YEAR_LEVELS.map((y) => (<option key={y} value={y}>{y}</option>))}
               </select>
             </div>
 
-            <div className={styles.field}>
-              <label className={styles.fieldLabel}>Best time to call *</label>
-              <div className={styles.timeButtons}>
+            <div className="field">
+              <label>Best time to call *</label>
+              <div className="time-btns">
                 {TIMES.map((t, i) => (
                   <button
                     key={t}
                     type="button"
                     data-cy={`form-time-btn-${i}`}
-                    className={`${styles.timeBtn} ${form.bestTime === t ? styles.timeBtnActive : ''}`}
+                    className={form.bestTime === t ? 'on' : ''}
                     onClick={() => setForm({ ...form, bestTime: t })}
                   >
-                    {t}
+                    {t.split(' ')[0]}
                   </button>
                 ))}
               </div>
             </div>
 
-            <div className={styles.field}>
-              <label className={styles.fieldLabel}>
-                Anything I should know before I call?
-                <span className={styles.optional}> (optional)</span>
-              </label>
-              <textarea className={styles.textarea} value={form.notes} onChange={set('notes')} placeholder="e.g. She's struggling with fractions and has a test in 3 weeks" data-cy="form-notes" rows={3} />
+            <div className="field">
+              <label>Anything I should know? (optional)</label>
+              <textarea value={form.notes} onChange={set('notes')} placeholder="e.g. struggling with fractions, test in 3 weeks" data-cy="form-notes" rows={3} />
             </div>
 
-            {error && <div className={styles.error} data-cy="form-error">{error}</div>}
+            {error && <div className="form-error" data-cy="form-error">{error}</div>}
 
-            <button type="submit" className={`btn-primary ${styles.submit}`} data-cy="form-submit" disabled={submitting || !form.bestTime}>
-              {submitting ? 'Sending...' : 'Request a callback →'}
+            <button type="submit" className="btn btn-primary btn-block" data-cy="form-submit" disabled={submitting || !form.bestTime}>
+              {submitting ? 'Sending...' : 'Book my free trial'} <ArrowRight />
             </button>
 
-            <p className={styles.promise}>
-              I'll call you within 24 hours. If it's urgent, call me directly:&nbsp;
-              <a href="tel:+61452330300" className={styles.phone}>0452 330 300</a>
-            </p>
+            <p className="form-note"><Shield /> We'll call within 24 hours. Or call now:&nbsp;<a href="tel:+61452330300">0452 330 300</a></p>
           </form>
         </div>
       </div>

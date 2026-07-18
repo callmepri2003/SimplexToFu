@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
-import styles from './DiagnosticOffer.module.css'
 import { trackEvent } from '../../hooks/useAnalytics'
+import { ArrowRight } from '../icons'
 
 export default function DiagnosticOffer({ pathId }) {
   const navigate = useNavigate()
@@ -16,28 +16,20 @@ export default function DiagnosticOffer({ pathId }) {
   }
 
   return (
-    <div className={styles.offer}>
-      <div className="container">
-        <div className={styles.inner}>
-          <div className={styles.icon}>🧠</div>
-          <div className={styles.text}>
-            <h3 className={styles.heading}>Want to make our first conversation even more useful?</h3>
-            <p className={styles.body}>
-              Take the optional 5-minute diagnostic so I know exactly where your child
-              stands before I call. It takes 8 questions and helps me prepare a specific
-              plan for your child.
-            </p>
-          </div>
-          <div className={styles.actions}>
-            <button className="btn-primary" data-cy="diagnostic-offer-yes" onClick={handleYes}>
-              Yes, take the diagnostic →
-            </button>
-            <button className={styles.skip} data-cy="diagnostic-offer-skip" onClick={handleSkip}>
-              No thanks, just call me
-            </button>
-          </div>
+    <section className="block cta-final" id="book">
+      <div className="wrap" style={{ maxWidth: 720, textAlign: 'center' }}>
+        <span className="eyebrow" style={{ justifyContent: 'center' }}>You're all set</span>
+        <h2 style={{ color: '#fff', marginTop: 16, fontSize: 'clamp(1.8rem, 3vw, 2.5rem)' }}>Want to make our first call even more useful?</h2>
+        <p style={{ color: 'rgba(255,255,255,.8)', fontSize: 18, margin: '16px auto 30px', maxWidth: '46ch' }}>
+          Take the optional 5-minute diagnostic so we know exactly where your child stands before we call. Eight quick questions.
+        </p>
+        <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <button className="btn btn-primary" data-cy="diagnostic-offer-yes" onClick={handleYes}>Take the diagnostic <ArrowRight /></button>
+          <button className="btn btn-ghost" data-cy="diagnostic-offer-skip" onClick={handleSkip} style={{ color: '#fff', borderColor: 'rgba(255,255,255,.4)' }}>
+            No thanks, just call me
+          </button>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

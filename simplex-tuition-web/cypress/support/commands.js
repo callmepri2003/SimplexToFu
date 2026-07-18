@@ -43,6 +43,6 @@ Cypress.Commands.add('fillCallbackForm', ({
   cy.get('[data-cy="form-name"]').clear().type(name)
   cy.get('[data-cy="form-phone"]').clear().type(phone)
   cy.get('[data-cy="form-year-level"]').select(yearLevel)
-  cy.contains('[data-cy^="form-time-btn"]', time).click()
+  cy.contains('[data-cy^="form-time-btn"]', time.split(' ')[0]).click()
   if (notes) cy.get('[data-cy="form-notes"]').type(notes)
 })

@@ -1,72 +1,29 @@
-import { useEffect, useRef } from 'react'
-import styles from './HowItWorks.module.css'
+import { ClipboardCheck, Pen, Trending } from '../icons'
 
 const STEPS = [
-  {
-    number: '01',
-    title: 'We find the gaps',
-    body: 'Not just "Year 9 Algebra" — we identify exactly which concepts your child is missing. The first session is diagnostic, not generic.'
-  },
-  {
-    number: '02',
-    title: 'We build the plan',
-    body: "Every student gets a custom resource set built around their specific gaps. Nothing off the shelf. No worksheets your child's already seen."
-  },
-  {
-    number: '03',
-    title: 'We track the progress',
-    body: "Every session is logged. You always know where your child stands — not just 'they're improving' but exactly which concepts are now solid."
-  },
+  { n: '01', Icon: ClipboardCheck, t: 'A free trial lesson', p: "We meet your child, find their exact gaps, and show you what's really going on, at no cost." },
+  { n: '02', Icon: Pen, t: 'A plan built around them', p: 'A learning plan targeting their specific weak spots, not a one-size-fits-all worksheet.' },
+  { n: '03', Icon: Trending, t: 'Weekly lessons that build', p: 'Consistent one-to-one lessons where progress compounds and confidence follows the marks.' },
 ]
 
-export default function HowItWorks({ pathId }) {
-  const ref = useRef(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.fade-up').forEach((el) => {
-              el.classList.add('visible')
-            })
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
-  }, [])
-
+export default function HowItWorks() {
   return (
-    <section className={styles.section} data-cy="how-it-works" ref={ref}>
-      <div className="container">
-        <div className={`${styles.header} fade-up`}>
-          <div className={styles.label}>The Simplex method</div>
-          <h2 className={styles.heading}>How it works</h2>
+    <section className="block" id="how" data-cy="how-it-works">
+      <div className="wrap">
+        <div className="sec-head">
+          <span className="eyebrow">How it works</span>
+          <h2>From confusion to confidence in three steps</h2>
+          <p>No lock-in contracts, no guesswork. We start by understanding exactly where your child is stuck.</p>
         </div>
-        <div className={styles.steps}>
-          {STEPS.map((step, i) => (
-            <div key={i} className={`${styles.step} fade-up`}>
-              <div className={styles.stepNumber}>{step.number}</div>
-              <div className={styles.stepContent}>
-                <h3 className={styles.stepTitle}>{step.title}</h3>
-                <p className={styles.stepBody}>{step.body}</p>
-              </div>
+        <div className="steps">
+          {STEPS.map((step) => (
+            <div className="step" key={step.n}>
+              <span className="num">{step.n}</span>
+              <div className="step-ico"><step.Icon /></div>
+              <h3>{step.t}</h3>
+              <p>{step.p}</p>
             </div>
           ))}
-        </div>
-        <div className={`${styles.callout} fade-up`}>
-          <div className={styles.calloutIcon}>💻</div>
-          <div>
-            <div className={styles.calloutTitle}>Built by a software engineer</div>
-            <div className={styles.calloutBody}>
-              I'm a Computer Science student at UNSW. I built the system I use to
-              track and personalise every student's journey — because spreadsheets
-              weren't good enough. When I say custom resources, I mean it technically.
-            </div>
-          </div>
         </div>
       </div>
     </section>

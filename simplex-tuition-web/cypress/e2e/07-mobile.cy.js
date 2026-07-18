@@ -1,17 +1,11 @@
 const MOBILE = { viewportWidth: 390, viewportHeight: 844 }
 
-describe('Mobile — Welcome Modal', MOBILE, () => {
-  beforeEach(() => { cy.resetVisitorState(); cy.visit('/') })
+describe('Mobile — Home', MOBILE, () => {
+  beforeEach(() => { cy.resetVisitorState(); cy.seedPath('assessment'); cy.visit('/') })
 
-  it('modal is fully visible on mobile', () => {
-    cy.get('[data-cy="welcome-modal"]').should('be.visible')
-    cy.get('[data-cy="modal-option-parent"]').should('be.visible')
-  })
-
-  it('full parent path completes on mobile', () => {
-    cy.completeModal({ who: 'parent', school: 'primary', concern: 'assessment' })
-    cy.get('[data-cy="welcome-modal"]').should('not.exist')
+  it('hero is fully visible on mobile', () => {
     cy.get('[data-cy="hero-headline"]').should('be.visible')
+    cy.get('[data-cy="hero-cta"]').should('be.visible')
   })
 })
 
