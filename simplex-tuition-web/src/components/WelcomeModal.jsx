@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import styles from './WelcomeModal.module.css'
 import { trackEvent } from '../hooks/useAnalytics'
 
@@ -26,13 +26,10 @@ export default function WelcomeModal({ onComplete }) {
   const [school, setSchool] = useState(null)
   const [visible, setVisible] = useState(true)
 
-  useEffect(() => {
-    trackEvent('modal_opened')
-  }, [])
-
   const concerns = school === 'primary' ? CONCERNS_PRIMARY : CONCERNS_HIGH
 
   const handleWho = (selection) => {
+    trackEvent('modal_opened')
     trackEvent('modal_who_selected', { who: selection })
     if (selection === 'student') {
       finish('student')

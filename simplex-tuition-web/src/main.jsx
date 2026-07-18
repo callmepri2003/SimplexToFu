@@ -5,6 +5,9 @@ import './styles/global.css'
 import Home from './pages/Home'
 import Diagnostic from './pages/Diagnostic'
 import ThankYou from './pages/ThankYou'
+import { captureAttribution } from './utils/attribution'
+
+captureAttribution()
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react'
 import styles from './CallbackForm.module.css'
 import { paths, defaultPath } from '../../data/pathContent'
-import { trackEvent } from '../../hooks/useAnalytics'
+import { trackEvent, trackLead } from '../../hooks/useAnalytics'
+import { getAttribution } from '../../utils/attribution'
 
 const YEAR_LEVELS = [
   'Kindergarten', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6',
@@ -33,17 +34,19 @@ export default function CallbackForm({ pathId, onSubmitted }) {
     setError(null)
 
     try {
+      const attribution = getAttribution()
       const res = await fetch(import.meta.env.VITE_FORMSPREE_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           ...form,
           path: pathId,
+          ...attribution,
           _subject: `New callback request — ${form.name}`,
         }),
       })
       if (!res.ok) throw new Error('Submission failed')
-      trackEvent('form_submitted', { path: pathId, year_level: form.yearLevel, best_time: form.bestTime })
+      trackLead({ path: pathId, year_level: form.yearLevel, best_time: form.bestTime, ...attribution })
       onSubmitted()
     } catch {
       trackEvent('form_error', { path: pathId })
