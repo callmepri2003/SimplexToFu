@@ -1,1 +1,1 @@
-import { expect } from 'vitest'
+// Vitest globals (describe/it/expect) are enabled in vitest.config.js.

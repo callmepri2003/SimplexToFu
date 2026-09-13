@@ -1,48 +1,27 @@
-import { paths, defaultPath } from '../../data/pathContent'
-import { trackEvent } from '../../hooks/useAnalytics'
-import { ArrowRight, Check, MapPin, Book, Cap, Stars } from '../icons'
+import { REVIEW_COUNT } from '../../data/content'
+import LeadForm from '../LeadForm'
+import { Check, Stars } from '../icons'
 
-export default function Hero({ pathId }) {
-  const content = paths[pathId] ?? defaultPath
-
-  const scrollToForm = () => {
-    trackEvent('hero_cta_clicked', { path: pathId })
-    document.getElementById('book')?.scrollIntoView({ behavior: 'smooth' })
-  }
-
+// Headline is a plain claim for the solution-aware parent arriving from
+// "tutoring near me"; the report-card scene below does the recognition work
+// for the problem-aware parent arriving from an ad.
+export default function Hero({ eyebrow, title, sub, crumbs, suburb, formLocation = 'hero' }) {
   return (
     <section className="hero" id="top">
       <div className="wrap hero-grid">
-        <div>
-          <span className="eyebrow">Private tutoring in Austral, Sydney</span>
-          <h1 data-cy="hero-headline">{content.heroHeadline}</h1>
-          <p className="hero-sub" data-cy="hero-sub">{content.heroSub}</p>
-          <div className="hero-actions">
-            <button className="btn btn-primary" data-cy="hero-cta" onClick={scrollToForm}>{content.heroCTA} <ArrowRight /></button>
-            <span className="assurance"><Check /> Free &amp; no obligation</span>
-          </div>
-          <div className="hero-trust">
-            <span className="item"><MapPin /> Austral &amp; nearby suburbs</span>
-            <span className="dot"></span>
-            <span className="item"><Book /> Maths &amp; English</span>
-            <span className="dot"></span>
-            <span className="item"><Cap /> K&ndash;12</span>
-          </div>
+        <div className="hero-copy">
+          {crumbs}
+          <p className="eyebrow">{eyebrow}</p>
+          <h1 data-cy="hero-headline">{title}</h1>
+          <p className="hero-sub">{sub}</p>
+          <ul className="hero-proof">
+            <li><Stars /> <strong>5.0</strong> from {REVIEW_COUNT} Google reviews</li>
+            <li><Check /> Same tutor every week</li>
+            <li><Check /> Every tutor holds a WWCC</li>
+          </ul>
         </div>
-
-        <div className="hero-media">
-          <div className="photo-slot hero-photo">
-            <img src="/hero-tutoring.jpg" alt="A Simplex tutor helping a student work through a problem" loading="eager" />
-          </div>
-          <div className="result-float">
-            <Stars />
-            <div className="rf-metric">
-              <span className="rf-from">37%</span>
-              <span className="rf-arrow"><ArrowRight /></span>
-              <span className="rf-to">76%</span>
-            </div>
-            <div className="rf-label">Advanced Maths &middot; verified Google review</div>
-          </div>
+        <div className="hero-form">
+          <LeadForm location={formLocation} suburb={suburb} />
         </div>
       </div>
     </section>

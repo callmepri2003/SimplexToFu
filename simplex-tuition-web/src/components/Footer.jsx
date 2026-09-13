@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
-import { Logo } from './icons'
+import { PHONE, PHONE_DISPLAY } from '../data/content'
 import { locations } from '../data/locations'
+import { whatsappUrl, trackWhatsApp, trackPhone } from '../utils/contact'
 
 export default function Footer() {
   return (
@@ -8,34 +9,28 @@ export default function Footer() {
       <div className="wrap">
         <div className="foot-grid">
           <div>
-            <div className="foot-brand"><span className="mark"><Logo /></span> Simplex Tuition</div>
-            <p className="foot-about">Private one-to-one maths &amp; English tutoring for Kindergarten to Year 12, based in Austral and serving south-west Sydney.</p>
+            <img className="foot-logo" src="/brand/simplex-logo-horizontal-dark.svg" alt="Simplex Tuition" width="500" height="110" loading="lazy" />
+            <p className="foot-tag">Keep them on track.</p>
+            <p className="foot-about">One-on-one maths and English tutoring, Kindergarten to Year 12. Based in Austral, NSW.</p>
           </div>
           <div className="foot-col">
-            <h4>Explore</h4>
-            <a href="#how">How it works</a>
-            <a href="#results">Results</a>
-            <a href="#why">Why Simplex</a>
-            <a href="#faq">Questions</a>
-          </div>
-          <div className="foot-col">
-            <h4>Areas we serve</h4>
+            <h4>Areas we tutor</h4>
             <Link to="/tutoring">All areas</Link>
-            {locations.slice(0, 6).map((l) => (
+            {locations.map((l) => (
               <Link key={l.slug} to={`/tutoring/${l.slug}`}>{l.name}</Link>
             ))}
           </div>
           <div className="foot-col">
             <h4>Get in touch</h4>
-            <a href="tel:+61452330300">0452 330 300</a>
+            <a href={`tel:${PHONE}`} onClick={() => trackPhone('footer')}>{PHONE_DISPLAY}</a>
+            <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer" onClick={() => trackWhatsApp('footer')}>WhatsApp us</a>
+            <a href="#book">Book a free lesson</a>
             <p>Austral, NSW 2179</p>
-            <p>Maths &amp; English &middot; K&ndash;12</p>
-            <a href="#book">Book a free trial</a>
           </div>
         </div>
         <div className="foot-bottom">
-          <span>&copy; 2026 Simplex Tuition. All rights reserved.</span>
-          <span>Serving Austral, Leppington, Edmondson Park, Carnes Hill &amp; nearby.</span>
+          <span>&copy; {new Date().getFullYear()} Simplex Tuition</span>
+          <span>All tutors hold a Working With Children Check</span>
         </div>
       </div>
     </footer>

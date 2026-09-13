@@ -1,32 +1,23 @@
-import { useEffect, useState } from 'react'
-import { Logo, Phone } from './icons'
+import { Link } from 'react-router-dom'
+import { PHONE, PHONE_DISPLAY } from '../data/content'
+import { trackEvent } from '../hooks/useAnalytics'
+import { trackPhone } from '../utils/contact'
+import { Phone } from './icons'
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false)
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
   return (
-    <header className={`site-header${scrolled ? ' scrolled' : ''}`}>
+    <header className="site-header">
       <div className="wrap nav">
-        <a className="brand" href="#top">
-          <span className="mark" aria-hidden="true"><Logo /></span>
-          <span>Simplex <small>Tuition</small></span>
-        </a>
-        <nav className="nav-links">
-          <a href="#how">How it works</a>
-          <a href="#results">Results</a>
-          <a href="#why">Why Simplex</a>
-          <a href="#faq">Questions</a>
-        </nav>
+        <Link className="brand" to="/" aria-label="Simplex Tuition home">
+          <img src="/brand/simplex-logo-horizontal-light.svg" alt="Simplex Tuition" width="500" height="110" />
+        </Link>
         <div className="nav-cta">
-          <a className="nav-phone" href="tel:+61452330300"><Phone /><span className="nav-phone-label">0452 330 300</span></a>
-          <a className="btn btn-primary" href="#book">Book a free trial</a>
+          <a className="nav-phone" href={`tel:${PHONE}`} onClick={() => trackPhone('header')}>
+            <Phone /><span>{PHONE_DISPLAY}</span>
+          </a>
+          <a className="btn btn-primary btn-sm" href="#book" onClick={() => trackEvent('cta_clicked', { location: 'header' })}>
+            Book a free lesson
+          </a>
         </div>
       </div>
     </header>

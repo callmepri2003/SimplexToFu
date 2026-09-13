@@ -26,4 +26,17 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
+  {
+    files: ['**/*.test.js', 'src/test/**'],
+    languageOptions: { globals: { ...globals.vitest } },
+  },
+  {
+    files: ['cypress/**', '**/*.cy.{js,jsx}'],
+    languageOptions: { globals: { ...globals.mocha, ...globals.node, cy: 'readonly', Cypress: 'readonly', expect: 'readonly', assert: 'readonly' } },
+  },
+  {
+    files: ['cypress.config.js', 'vite.config.js', 'vitest.config.js'],
+    languageOptions: { globals: globals.node },
+    rules: { 'no-unused-vars': 'off' },
+  },
 ])
