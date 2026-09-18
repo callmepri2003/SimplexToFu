@@ -13,7 +13,7 @@ export default function FinalCta({ suburb, heading = 'Book the free lesson. See 
             <li>The same tutor every week if you continue</li>
           </ul>
         </div>
-        <LeadForm location={suburb ? 'suburb-final' : 'final'} suburb={suburb} title="Your free lesson" dark />
+        <LeadForm location={suburb ? 'suburb-final' : 'final'} suburb={suburb} label="Book a free lesson" dark />
       </div>
     </section>
   )

@@ -7,31 +7,42 @@ import { buildEnquiry, sendToEnquiriesSheet } from '../utils/enquiries'
 import { whatsappUrl, trackWhatsApp, trackPhone } from '../utils/contact'
 import { ArrowRight, WhatsApp } from './icons'
 
-// Three required fields and one optional tap. Nothing hidden gates the button:
-// if a required field is empty the browser says which one.
-export default function LeadForm({ location, suburb, title = 'Book a free first lesson', dark = false }) {
+// Three steps, because the first action should cost nothing: one tap, then her
+// own situation said back to her, and only then a request for her number.
+// Nothing is ever hidden behind a disabled button — if a field is missing the
+// browser says which, which is what the previous form got wrong.
+const STEPS = ["So what's going wrong?", 'What year?', 'Your number']
+
+export default function LeadForm({ location, suburb, label = 'Book a free lesson', dark = false }) {
   const navigate = useNavigate()
+  const [step, setStep] = useState(0)
   const [form, setForm] = useState({ name: '', phone: '', yearLevel: '' })
-  const [gotcha, setGotcha] = useState('')
   const [concern, setConcern] = useState('')
+  const [gotcha, setGotcha] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const started = useRef(false)
 
-  const markStarted = () => {
-    if (started.current) return
-    started.current = true
-    trackEvent('form_started', { location })
-  }
+  const chosen = CONCERNS.find((c) => c.id === concern)
 
-  const update = (field, value) => {
-    markStarted()
-    setForm({ ...form, [field]: value })
+  const go = (next) => {
+    setStep(next)
+    trackEvent('form_step', { location, step: next + 1, step_name: STEPS[next] })
   }
 
   const pickConcern = (id) => {
-    markStarted()
-    setConcern(concern === id ? '' : id)
+    if (!started.current) {
+      started.current = true
+      trackEvent('form_started', { location })
+    }
+    setConcern(id)
+    go(1)
+  }
+
+  const pickYear = (e) => {
+    const yearLevel = e.target.value
+    setForm({ ...form, yearLevel })
+    if (yearLevel) go(2)
   }
 
   const handleSubmit = async (e) => {
@@ -39,7 +50,7 @@ export default function LeadForm({ location, suburb, title = 'Book a free first 
     setSubmitting(true)
     setError(null)
 
-    const concernLabel = CONCERNS.find((c) => c.id === concern)?.label ?? ''
+    const concernLabel = chosen?.label ?? ''
     try {
       const attribution = getAttribution()
       const res = await fetch(import.meta.env.VITE_FORMSPREE_URL, {
@@ -70,63 +81,72 @@ export default function LeadForm({ location, suburb, title = 'Book a free first 
   const id = (field) => `${location}-${field}`
 
   return (
-    <form className={`lead-form${dark ? ' on-dark' : ''}`} onSubmit={handleSubmit} data-cy={`lead-form-${location}`}>
-      <h3 className="lead-title">{title}</h3>
-      <p className="lead-sub">Leave your number and we'll call you back within 24 hours to find a time.</p>
-
-      <div className="field">
-        <label htmlFor={id('name')}>Your name</label>
-        <input id={id('name')} type="text" autoComplete="given-name" value={form.name} onChange={(e) => update('name', e.target.value)} data-cy="form-name" required />
+    <div className={`lead-form${dark ? ' on-dark' : ''}`} data-cy={`lead-form-${location}`}>
+      <p className="lead-label">{label}</p>
+      <div className="lead-head">
+        <h3 className="lead-title">{STEPS[step]}</h3>
+        <ol className="lead-dots" aria-label={`Step ${step + 1} of 3`}>
+          {STEPS.map((s, i) => <li key={s} className={i <= step ? 'on' : ''} />)}
+        </ol>
       </div>
 
-      <div className="field-row">
-        <div className="field">
-          <label htmlFor={id('phone')}>Mobile number</label>
-          <input id={id('phone')} type="tel" inputMode="tel" autoComplete="tel" placeholder="04xx xxx xxx" minLength={8} value={form.phone} onChange={(e) => update('phone', e.target.value)} data-cy="form-phone" required />
+      {step === 0 && (
+        <div className="lead-step" data-cy="step-concern">
+          <div className="picks">
+            {CONCERNS.map((c) => (
+              <button key={c.id} type="button" className="pick" onClick={() => pickConcern(c.id)} data-cy={`form-concern-${c.id}`}>
+                <span>{c.label}</span> <ArrowRight />
+              </button>
+            ))}
+          </div>
         </div>
-        <div className="field">
-          <label htmlFor={id('year')}>Child's year</label>
-          <select id={id('year')} value={form.yearLevel} onChange={(e) => update('yearLevel', e.target.value)} data-cy="form-year-level" required>
-            <option value="">Choose</option>
-            {YEAR_LEVELS.map((y) => <option key={y} value={y}>{y}</option>)}
-          </select>
+      )}
+
+      {step === 1 && (
+        <div className="lead-step" data-cy="step-year">
+          <p className="echo" data-cy="form-echo">{chosen?.echo}</p>
+          <div className="field">
+            <label className="sr-only" htmlFor={id('year')}>What year is your child in?</label>
+            <select id={id('year')} value={form.yearLevel} onChange={pickYear} data-cy="form-year-level">
+              <option value="">Choose a year</option>
+              {YEAR_LEVELS.map((y) => <option key={y} value={y}>{y}</option>)}
+            </select>
+          </div>
+          <button type="button" className="lead-back" onClick={() => go(0)} data-cy="form-back">← Back</button>
         </div>
-      </div>
+      )}
 
-      <fieldset className="field concerns">
-        <legend>What's on your mind? <span className="optional">(optional)</span></legend>
-        <div className="chips">
-          {CONCERNS.map((c) => (
-            <button
-              key={c.id}
-              type="button"
-              className={`chip${concern === c.id ? ' on' : ''}`}
-              aria-pressed={concern === c.id}
-              onClick={() => pickConcern(c.id)}
-              data-cy={`form-concern-${c.id}`}
-            >
-              {c.label}
-            </button>
-          ))}
-        </div>
-      </fieldset>
+      {step === 2 && (
+        <form className="lead-step" onSubmit={handleSubmit} data-cy="step-details">
+          <div className="field">
+            <label htmlFor={id('name')}>Your name</label>
+            <input id={id('name')} type="text" autoComplete="given-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} data-cy="form-name" required />
+          </div>
+          <div className="field">
+            <label htmlFor={id('phone')}>Mobile number</label>
+            <input id={id('phone')} type="tel" inputMode="tel" autoComplete="tel" placeholder="04xx xxx xxx" minLength={8} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} data-cy="form-phone" required />
+          </div>
 
-      {/* Honeypot: hidden from people, irresistible to spam bots. */}
-      <input type="text" name="_gotcha" className="hp" tabIndex={-1} autoComplete="off" aria-hidden="true" value={gotcha} onChange={(e) => setGotcha(e.target.value)} />
+          {/* Honeypot: hidden from people, irresistible to spam bots. */}
+          <input type="text" name="_gotcha" className="hp" tabIndex={-1} autoComplete="off" aria-hidden="true" value={gotcha} onChange={(e) => setGotcha(e.target.value)} />
 
-      {error && <p className="form-error" role="alert" data-cy="form-error">{error}</p>}
+          {error && <p className="form-error" role="alert" data-cy="form-error">{error}</p>}
 
-      <button type="submit" className="btn btn-primary btn-block" disabled={submitting} data-cy="form-submit">
-        {submitting ? 'Sending…' : 'Book my free lesson'} {!submitting && <ArrowRight />}
-      </button>
+          <button type="submit" className="btn btn-primary btn-block" disabled={submitting} data-cy="form-submit">
+            {submitting ? 'Sending…' : 'Book my free lesson'} {!submitting && <ArrowRight />}
+          </button>
+          <p className="lead-promise">We call within 24 hours. Free, no contract.</p>
+          <button type="button" className="lead-back" onClick={() => go(1)} data-cy="form-back">← Back</button>
+        </form>
+      )}
 
       <p className="lead-foot">
-        Free. No contract. Rather text?{' '}
+        <a href={`tel:${PHONE}`} onClick={() => trackPhone(`form-${location}`)}>{PHONE_DISPLAY}</a>
+        {' · '}
         <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer" onClick={() => trackWhatsApp(`form-${location}`)} data-cy="form-whatsapp">
-          <WhatsApp /> WhatsApp us
+          <WhatsApp /> WhatsApp
         </a>
-        {' '}or call <a href={`tel:${PHONE}`} onClick={() => trackPhone(`form-${location}`)}>{PHONE_DISPLAY}</a>
       </p>
-    </form>
+    </div>
   )
 }

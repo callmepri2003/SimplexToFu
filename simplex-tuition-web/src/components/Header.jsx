@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { PHONE, PHONE_DISPLAY } from '../data/content'
 import { trackEvent } from '../hooks/useAnalytics'
 import { trackPhone } from '../utils/contact'
+import ExtrasMenu from './ExtrasMenu'
 import { Phone } from './icons'
 
 export default function Header() {
@@ -18,6 +19,7 @@ export default function Header() {
           <a className="btn btn-primary btn-sm" href="#book" onClick={() => trackEvent('cta_clicked', { location: 'header' })}>
             Book a free lesson
           </a>
+          <ExtrasMenu />
         </div>
       </div>
     </header>

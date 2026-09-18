@@ -100,6 +100,7 @@ section[id], main[id] { scroll-margin-top: 84px; }
   backdrop-filter: saturate(1.2) blur(8px); border-bottom: 1px solid var(--line);
 }
 .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 70px; }
+.brand { flex: none; }
 .brand img { height: 40px; width: auto; margin-left: -18px; }
 .nav-cta { display: flex; align-items: center; gap: 18px; }
 .nav-phone { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; text-decoration: none; }
@@ -109,7 +110,51 @@ section[id], main[id] { scroll-margin-top: 84px; }
   .nav-phone { width: 44px; height: 44px; justify-content: center; border: 1.5px solid var(--line); border-radius: var(--r-md); }
   .brand img { height: 34px; margin-left: -14px; }
 }
-@media (max-width: 360px) { .nav-cta .btn-sm { padding-inline: 12px; font-size: 15px; } }
+@media (max-width: 430px) {
+  /* The menu and the booking button need the room; the number is in the form. */
+  .nav-phone { display: none; }
+  .nav-cta { gap: 10px; }
+  .nav-cta .btn-sm { padding-inline: 14px; }
+}
+@media (max-width: 360px) { .nav-cta .btn-sm { padding-inline: 11px; font-size: 15px; } }
+
+/* Extras menu + dialogs */
+.extras { position: relative; display: flex; }
+.extras-btn { width: 44px; height: 44px; display: grid; place-items: center; border: 1.5px solid var(--line); border-radius: var(--r-md); background: transparent; cursor: pointer; }
+.extras-btn:hover { border-color: var(--ink-2); }
+.extras-btn svg { width: 20px; height: 20px; }
+.extras-menu {
+  position: absolute; top: calc(100% + 10px); right: 0; z-index: 50; min-width: 232px;
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-md);
+  box-shadow: var(--shadow); padding: 6px; display: grid; gap: 2px;
+}
+.extras-menu a, .extras-menu button {
+  display: flex; flex-direction: column; gap: 1px; text-align: left; width: 100%;
+  padding: 10px 12px; border: 0; border-radius: var(--r-sm); background: transparent;
+  font: 600 16px var(--ff); color: var(--ink); text-decoration: none; cursor: pointer;
+}
+.extras-menu a:hover, .extras-menu button:hover { background: var(--bg); }
+.extras-menu button span { font-family: var(--ff-note); font-weight: 700; font-size: 17px; color: var(--ink-2); }
+.extras-menu hr { border: 0; border-top: 1px solid var(--line); margin: 6px 4px; }
+
+.sheet { border: 0; padding: 0; background: transparent; max-width: min(460px, calc(100vw - 32px)); }
+.sheet::backdrop { background: rgba(43, 40, 34, .45); }
+.sheet-body { background: var(--panel); border-radius: var(--r-lg); padding: clamp(24px, 4vw, 34px); text-align: left; }
+.sheet-body h2 { font-size: 30px; margin-top: 8px; }
+.sheet-sub { color: var(--ink-2); margin-top: 8px; }
+.sheet-controls { display: grid; gap: 10px; margin-top: 20px; }
+.sheet-controls label { font-weight: 600; font-size: 16px; }
+.sheet-controls select {
+  width: 100%; height: 52px; padding: 0 36px 0 14px; border-radius: var(--r-sm); border: 1.5px solid #D6CCBA;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%232B2822' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center;
+  font-size: 17px; appearance: none;
+}
+.btn-quiet { background: transparent; border-color: var(--line); min-height: 44px; font-size: 16px; }
+.btn-quiet:hover { background: var(--bg); }
+.sheet-result { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); display: grid; gap: 10px; justify-items: start; }
+.result-line { font-size: 21px; font-weight: 700; }
+.result-note { font-size: 15px; color: var(--ink-2); }
+.sheet-close { margin-top: 18px; background: transparent; border: 0; padding: 0; font: 600 15px var(--ff); color: var(--ink-2); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 
 /* Sections */
 .block { padding-block: clamp(64px, 9vw, 112px); }
@@ -141,8 +186,38 @@ section[id], main[id] { scroll-margin-top: 84px; }
   background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg);
   padding: clamp(22px, 3vw, 32px); box-shadow: var(--shadow);
 }
-.lead-title { font-size: 26px; }
+.lead-label { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 10px; }
+.lead-promise { font-size: 14px; color: var(--ink-2); text-align: center; margin-top: 10px; }
+.lead-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.lead-head .lead-dots { margin-top: 10px; }
+.lead-title { font-size: clamp(26px, 3vw, 32px); }
+.lead-dots { display: flex; gap: 6px; flex: none; }
+.lead-dots li { width: 22px; height: 4px; border-radius: 2px; background: var(--line); }
+.lead-dots li.on { background: var(--ink); }
 .lead-sub { color: var(--ink-2); font-size: 16px; margin: 6px 0 20px; }
+.lead-step { animation: step-in .22s ease both; }
+@keyframes step-in { from { opacity: .4; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .lead-step { animation: none; } }
+
+/* Step 1: one tap, no typing */
+.picks { display: grid; gap: 8px; }
+.pick {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%;
+  padding: 15px 16px; border: 1.5px solid #D6CCBA; border-radius: var(--r-md); background: #fff;
+  font: 600 17px var(--ff); color: var(--ink); text-align: left; cursor: pointer;
+  transition: border-color .15s ease, background .15s ease, transform .15s ease;
+}
+.pick svg { width: 18px; height: 18px; flex: none; color: var(--ink-2); }
+.pick:hover { border-color: var(--ink); background: var(--bg); transform: translateX(2px); }
+.pick:hover svg { color: var(--ink); }
+
+/* Step 2: her situation, said back to her */
+.echo {
+  font-size: 19px; line-height: 1.45; margin-bottom: 20px; padding-left: 16px;
+  border-left: 4px solid var(--hl);
+}
+.lead-back { margin-top: 12px; background: transparent; border: 0; padding: 4px 0; font: 600 15px var(--ff); color: var(--ink-2); cursor: pointer; }
+.lead-back:hover { color: var(--ink); }
 .field { margin-bottom: 16px; border: 0; padding: 0; min-width: 0; }
 .field label, .field legend { display: block; font-weight: 600; font-size: 16px; margin-bottom: 6px; padding: 0; }
 .optional { font-weight: 400; color: var(--ink-2); }

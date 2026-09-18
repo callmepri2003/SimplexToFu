@@ -26,12 +26,15 @@ export const YEAR_LEVELS = [
 
 // Optional one-tap answers on the form. They map to the triggers in the avatar
 // document (§3), so every lead arrives already telling us which door they came in.
+// Step 1. Short labels, short echoes: a sceptical parent reads a form in about
+// two seconds. The "nothing's wrong" option keeps the protect-door parent in,
+// even though the question asks what's going wrong.
 export const CONCERNS = [
-  { id: 'school-said', label: 'The school said something' },
-  { id: 'slipping', label: 'Marks are slipping a bit' },
-  { id: 'protect', label: "They're fine, I want to keep it that way" },
-  { id: 'cant-help', label: "I can't help them at home" },
-  { id: 'hsc-selective', label: 'HSC or selective school' },
+  { id: 'school-said', label: 'The school said something', echo: "That's the most common reason parents call us." },
+  { id: 'slipping', label: 'Marks are slipping', echo: "Usually one topic that didn't land. We go and find it." },
+  { id: 'protect', label: "Nothing — I want to keep it that way", echo: 'Good instinct. Plenty of families start here.' },
+  { id: 'cant-help', label: "I can't help at home", echo: "That's the part we take off you." },
+  { id: 'hsc-selective', label: 'HSC or selective', echo: 'Then the clock matters.' },
 ]
 
 export const DOORS = [
