@@ -15,10 +15,7 @@ export default function Welcome() {
             </li>
           ))}
         </ul>
-        <p className="welcome-line">
-          Every family here is welcome, whatever language is spoken at home.
-          Lessons are taught in English, and the tutor does the explaining — so if the homework isn't in your language, it doesn't have to be your job.
-        </p>
+        <p className="welcome-line">Every family is welcome here.</p>
       </div>
     </section>
   )
