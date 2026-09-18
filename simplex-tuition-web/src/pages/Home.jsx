@@ -2,6 +2,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import MobileBar from '../components/MobileBar'
 import Hero from '../components/sections/Hero'
+import Welcome from '../components/sections/Welcome'
 import TheReport from '../components/sections/TheReport'
 import TwoDoors from '../components/sections/TwoDoors'
 import OneOnOne from '../components/sections/OneOnOne'
@@ -26,6 +27,7 @@ export default function Home() {
           title={<>One-on-one tutoring that keeps them <span className="hl">on track.</span></>}
           sub="For Kindergarten to Year 12. The same tutor every week, at our Austral space or in your home. No classroom, no rushing. The first lesson is free."
         />
+        <Welcome />
         <TheReport />
         <TwoDoors />
         <OneOnOne />

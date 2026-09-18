@@ -124,3 +124,13 @@ export const FAQS = [
     a: "Yes, any time. No lock-in contracts. Pause for exams or holidays, or stop whenever you need to. Just let us know.",
   },
 ]
+
+// A greeting, not a service claim: lessons are taught in English. Scripts are
+// shown with their Latin reading so every parent can read the row, and no flags
+// — flags label nationality, which misses second-generation families.
+export const GREETINGS = [
+  { lang: 'en', label: 'English', script: 'Welcome', latin: null },
+  { lang: 'hi', label: 'Hindi', script: 'नमस्ते', latin: 'Namaste' },
+  { lang: 'ur', label: 'Urdu', script: 'خوش آمدید', latin: 'Khush āmdeed', rtl: true },
+  { lang: 'ar', label: 'Arabic', script: 'أهلاً وسهلاً', latin: 'Ahlan wa sahlan', rtl: true },
+]

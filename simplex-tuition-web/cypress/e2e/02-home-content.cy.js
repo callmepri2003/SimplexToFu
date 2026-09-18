@@ -6,7 +6,7 @@ describe('Home — message order and proof', () => {
   })
 
   it('shows every section in the avatar order', () => {
-    const order = ['the-report', 'two-doors', 'one-on-one', 'lesson-photos', 'reviews', 'tutors', 'next-steps', 'faq', 'final-cta']
+    const order = ['welcome', 'the-report', 'two-doors', 'one-on-one', 'lesson-photos', 'reviews', 'tutors', 'next-steps', 'faq', 'final-cta']
     order.forEach((s) => cy.get(`[data-cy="${s}"]`).should('exist'))
     cy.get('main section[data-cy]').then(($s) => {
       const actual = [...$s].map((el) => el.dataset.cy)
