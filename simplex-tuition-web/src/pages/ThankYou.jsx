@@ -2,8 +2,14 @@ import { Link } from 'react-router-dom'
 import { PHONE, PHONE_DISPLAY } from '../data/content'
 import { whatsappUrl, trackWhatsApp, trackPhone } from '../utils/contact'
 import { WhatsApp } from '../components/icons'
+import { thankYouSeo } from '../seo/pages'
+import { useSeo } from '../hooks/useSeo'
+
+const SEO = thankYouSeo()
 
 export default function ThankYou() {
+  useSeo(SEO)
+
   return (
     <main className="thanks" data-cy="thank-you-page">
       <div className="note taped thanks-card">
