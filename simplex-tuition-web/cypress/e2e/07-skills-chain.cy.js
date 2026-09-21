@@ -20,19 +20,37 @@ describe('Maths skills chain — a parent on a phone', MOBILE, () => {
   it('tapping a skill says what it means and how many skills sit under it', () => {
     card('Solving equations').scrollIntoView().click()
     cy.get('.pv-dock').should('contain', EQUATIONS)
-    cy.get('.pv-dock .pv-solid').invoke('text').should('match', /^See the \d+ skills under it$/)
+    cy.get('.pv-dock .pv-solid').invoke('text').should('match', /^See the \d+ skills it depends on$/)
     cy.get('.vc-card--below').should('have.length.greaterThan', 20)
   })
 
-  it('narrows to that skill’s path, and the phone’s Back button restores the whole chain', () => {
+  // The point of narrowing is to SEE the unrelated skills disappear. If the page jumped to the top
+  // instead, a parent would not notice anything had changed. So the tapped skill must stay put.
+  const topOfChosen = () => cy.get('.vc-card--focus').then(($el) => Math.round($el[0].getBoundingClientRect().top))
+  // The site scrolls smoothly, and tapping a skill nudges it clear of the dock. Measure once that has finished.
+  const settled = () => {
+    let last = -1
+    cy.window().should((win) => { const y = Math.round(win.scrollY); const still = y === last; last = y; expect(still, 'page has stopped scrolling').to.eq(true) })
+  }
+
+  it('narrows to that skill’s path without moving the skill on screen, and Back restores the whole chain the same way', () => {
     card('Solving equations').scrollIntoView().click()
-    cy.get('.pv-dock .pv-solid').click()
-    cy.get('.pv-pathintro').should('contain', 'skills sit under this one')
-    chain().should('have.length.lessThan', 60)
-    cy.location('hash').should('match', /^#path=/)
-    cy.go('back')
-    chain().should('have.length.greaterThan', 100)
-    cy.location('pathname').should('eq', PAGE)
+    cy.get('.pv-dock .pv-solid').should('be.visible')
+    settled()
+    topOfChosen().then((before) => {
+      cy.get('.pv-dock .pv-solid').click()
+      cy.get('.pv-dock--path').should('contain', 'earlier skills').and('contain', 'Back to the full chain')
+      chain().should('have.length.lessThan', 60)
+      cy.location('hash').should('match', /^#path=/)
+      topOfChosen().should((after) => expect(Math.abs(after - before)).to.be.at.most(3))
+    })
+    settled()
+    topOfChosen().then((before) => {
+      cy.go('back')
+      chain().should('have.length.greaterThan', 100)
+      cy.location('pathname').should('eq', PAGE)
+      topOfChosen().should((after) => expect(Math.abs(after - before)).to.be.at.most(3))
+    })
   })
 
   // The owner's rule: the chain informs, the page underneath it asks. Nothing inside the chain
@@ -79,7 +97,8 @@ describe('Maths skills chain — a parent on a phone', MOBILE, () => {
 
   it('a link to one skill’s path opens on that path', () => {
     cy.visit(`${PAGE}#path=M-56-10`)
-    cy.get('.pv-pathintro', { timeout: 15000 }).should('contain', '3/4 of $20')
+    cy.get('.pv-dock--path', { timeout: 15000 }).should('contain', 'earlier skills')
+    cy.contains('.vc-card--focus', 'Fraction of a quantity').should('be.visible')
   })
 })
 

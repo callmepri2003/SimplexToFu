@@ -30,12 +30,13 @@
   overflow-wrap: anywhere;
 }
 .pv--docked { padding-bottom: calc(210px + env(safe-area-inset-bottom)); }
+.pv--docked-tall { padding-bottom: calc(270px + env(safe-area-inset-bottom)); }
 .pv *, .pv *::before, .pv *::after { box-sizing: border-box; }
 .pv button, .pv a { font: inherit; color: inherit; touch-action: manipulation; -webkit-tap-highlight-color: transparent; cursor: pointer; }
 .pv button:focus-visible, .pv a:focus-visible { outline: 3px solid var(--pv-ink); outline-offset: 2px; }
 .pv h1, .pv h2, .pv h3, .pv p { margin: 0; }
 .pv-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.pv-top, .pv-hero, .pv-pathintro { margin-left: max(16px, env(safe-area-inset-left)); margin-right: max(16px, env(safe-area-inset-right)); }
+.pv-top, .pv-hero { margin-left: max(16px, env(safe-area-inset-left)); margin-right: max(16px, env(safe-area-inset-right)); }
 
 /* ── Top and hero ───────────────────────────────────────────────────────── */
 .pv-top { display: flex; align-items: center; justify-content: space-between; min-height: 48px; padding-top: env(safe-area-inset-top); }
@@ -77,10 +78,7 @@
 .vc-card--peek { box-shadow: 0 0 0 4px var(--pv-mark); }
 .vc-card--focus { box-shadow: 0 0 0 4px var(--pv-mark), 0 0 0 6px var(--pv-ink); opacity: 1; }
 
-/* ── Path introduction ──────────────────────────────────────────────────── */
-.pv-pathintro { margin-top: 16px; margin-bottom: 16px; padding: 16px; border-radius: 14px; background: var(--pv-rust-wash); border-left: 5px solid var(--pv-rust); display: grid; gap: 10px; }
-.pv-pathintro h2 { font-size: 1.35rem; line-height: 1.2; }
-.pv-pathfor { font-weight: 700; color: var(--pv-rust); }
+/* ── Buttons ────────────────────────────────────────────────────────────── */
 .pv-solid, .pv-ghost { min-height: 52px; padding: 0 16px; border-radius: 12px; font-weight: 700; }
 .pv .pv-solid { border: 2px solid var(--pv-ink); background: var(--pv-ink); color: var(--pv-warm); }
 .pv-ghost { border: 2px solid var(--pv-ink); background: var(--pv-paper); }
@@ -91,6 +89,10 @@
 .pv-dock-close { width: 48px; height: 48px; border: 0; border-radius: 50%; background: var(--pv-wash); font-size: 1.6rem; line-height: 1; }
 .pv-dock-actions { grid-column: 1 / -1; display: grid; }
 .pv-dock-note { color: var(--pv-soft); }
+/* The path state: a heading, one line, and the way back. Rust edge, because rust is what the path is drawn in. */
+.pv-dock--path { grid-template-columns: 1fr; border-top: 4px solid var(--pv-rust); gap: 6px; }
+.pv-dock-title { font-size: 1.2rem; line-height: 1.2; }
+.pv-dock--path .pv-dock-actions { margin-top: 6px; }
 
 @keyframes pv-rise { from { transform: translateY(40%); opacity: 0.6; } }
 @media (prefers-reduced-motion: reduce) {
@@ -101,7 +103,6 @@
 /* ── Bigger screens ─────────────────────────────────────────────────────── */
 @media (min-width: 700px) {
   .pv-hero h1 { font-size: 2.4rem; }
-  .pv-pathintro { justify-items: start; }
   .vc-topic { font-size: 0.9rem; }
 }
 /* Short screens (a phone on its side): the toolbar scrolls away and the dock becomes one row. */
@@ -112,7 +113,11 @@
   .pv-dock-actions { grid-column: 2; grid-row: 1; }
   .pv-dock-close { grid-column: 3; grid-row: 1; }
   .pv-solid { min-height: 46px; }
-  .pv--docked { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
+  .pv--docked, .pv--docked-tall { padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
+  .pv-dock--path { grid-template-columns: 1fr auto; align-items: center; }
+  .pv-dock--path .pv-dock-note { display: none; }
+  .pv-dock--path .pv-dock-actions { grid-column: 2; grid-row: 1; margin-top: 0; }
+  .pv-dock-title { font-size: 1rem; }
 }
 @media (max-width: 350px) {
   .pv-hero h1 { font-size: 1.6rem; }

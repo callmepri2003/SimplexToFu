@@ -31,7 +31,7 @@ const DEFAULT_COPY = {
   brand: "Simplex Tuition",
   title: "Stuck in maths? See why.",
   lead: "Maths is a chain. Tap the skill your child finds hard.",
-  pathNote: "A gap in any one of them causes trouble here. The hard part is knowing which one.",
+  pathNote: "Scroll up to see them. A gap in any one causes trouble here. The hard part is knowing which one.",
 };
 
 const readHash = () => Object.fromEntries(new URLSearchParams(window.location.hash.replace(/^#/, "")));
@@ -59,6 +59,14 @@ export default function ParentView({ data, onEvent = null, onFocus = null, copy:
   const toolbar = useRef(null);
   const chainTop = useRef(null);
   const strip = useRef(null);
+  // Where the chosen card sat on screen just before the chain was narrowed or widened. The chain is then
+  // redrawn around it without it moving, so the parent sees the other skills disappear, not the page jump.
+  const anchor = useRef(null);
+  const tail = useRef(null);
+  const holdCard = (id) => {
+    const el = id && document.querySelector(`[data-skill="${id}"]`);
+    anchor.current = el ? { id, top: el.getBoundingClientRect().top } : null;
+  };
 
   const pvRoot = useRef(null);
   // How much of the top of the screen is covered: the host's pinned header (--pv-offset) plus our own pinned year strip.
@@ -83,11 +91,14 @@ export default function ParentView({ data, onEvent = null, onFocus = null, copy:
   useEffect(() => {
     window.history.replaceState({ ...window.history.state, chain: uiRef.current }, "", window.location.href);
     // Back and Forward carry our state. A link followed while the page is already open carries none, so read it from the address.
-    const onPop = (e) => { const c = e.state?.chain; const s = c && (c.sel === null || byId.has(c.sel)) ? c : fromHash(); uiRef.current = s; setUi(s); };
+    const onPop = (e) => { holdCard(uiRef.current.root ?? uiRef.current.sel); const c = e.state?.chain; const s = c && (c.sel === null || byId.has(c.sel)) ? c : fromHash(); uiRef.current = s; setUi(s); };
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, [byId, fromHash]);
-  const leavePath = useCallback(() => { if (window.history.state?.chain?.path) window.history.back(); else go({ path: false }); }, [go]);
+  const leavePath = useCallback(() => {
+    if (window.history.state?.chain?.path) window.history.back(); // the popstate handler holds the card
+    else { holdCard(uiRef.current.root); go({ path: false, sel: uiRef.current.root }); }
+  }, [go]);
 
   const skill = ui.sel ? byId.get(ui.sel) : null;
   const rootId = ui.path ? ui.root : ui.sel; // whose chain is lit up
@@ -142,18 +153,28 @@ export default function ParentView({ data, onEvent = null, onFocus = null, copy:
     if (ui.path) { go({ sel: null }); window.setTimeout(() => jumpToBand(key), 60); } else jumpToBand(key);
   };
 
-  // When the chain is rebuilt (path mode on or off), bring the right thing back into view.
+  // When the chain is redrawn (narrowed to a path, or widened again), keep the chosen card exactly where it
+  // was on screen. "instant" matters: a host page may set scroll-behavior: smooth, and a glide here is the
+  // page jump we are avoiding. Arriving by a link, there is no "before", so the card is simply brought into view.
   const onLayout = useCallback((layout) => {
     const rebuilt = !layoutRef.current || layoutRef.current.nodes.length !== layout.nodes.length;
     layoutRef.current = layout;
-    const { sel, path, root } = uiRef.current;
-    const n = (root ?? sel) && layout.nodes.find((x) => x.id === (root ?? sel));
+    const { sel, root } = uiRef.current;
+    const id = root ?? sel;
+    const n = id && layout.nodes.find((x) => x.id === id);
     if (!rebuilt || !n) return;
+    const held = anchor.current?.id === id ? anchor.current.top : null;
+    anchor.current = null;
     window.requestAnimationFrame(() => {
-      const intro = document.querySelector(".pv-pathintro");
-      const top = (el) => el.getBoundingClientRect().top + window.scrollY - covered();
-      const y = path && intro ? top(intro) - 12 : top(chainTop.current) + n.y - 160;
-      window.scrollTo({ top: Math.max(0, y), behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      const cardY = chainTop.current.getBoundingClientRect().top + window.scrollY + n.y;
+      const onScreenAt = held ?? Math.max(covered() + 60, window.innerHeight * 0.35);
+      const want = Math.max(0, cardY - onScreenAt);
+      // The chosen skill is the LAST card of its own path, so a narrowed page can be too short to keep it
+      // where it was. Add just enough room under the chain for that, and none when it is not needed.
+      tail.current.style.height = "0px";
+      const short = want - (document.documentElement.scrollHeight - window.innerHeight);
+      if (short > 0) tail.current.style.height = `${Math.ceil(short)}px`;
+      window.scrollTo({ top: want, behavior: "instant" });
     });
   }, [covered]);
 
@@ -179,7 +200,7 @@ export default function ParentView({ data, onEvent = null, onFocus = null, copy:
   const activeYears = bandByKey.get(activeBand)?.years ?? [];
 
   return (
-    <div ref={pvRoot} className={`pv${skill && (!ui.path || peeking) ? " pv--docked" : ""}`}>
+    <div ref={pvRoot} className={`pv${skill ? (ui.path && !peeking ? " pv--docked pv--docked-tall" : " pv--docked") : ""}`}>
       {(copy.brand || switcher) && (
         <header className="pv-top">
           <span className="pv-brand">{copy.brand}</span>
@@ -208,22 +229,24 @@ export default function ParentView({ data, onEvent = null, onFocus = null, copy:
       </div>
 
       <main>
-        {ui.path && rootSkill && (
-          <section className="pv-pathintro" aria-live="polite">
-            <p className="pv-pathfor">{rootSkill.line}</p>
-            <h2>{plural(count, "skill")} sit under this one.</h2>
-            <p>{copy.pathNote}</p>
-            <button type="button" className="pv-ghost" onClick={leavePath}>Back to the full chain</button>
-          </section>
-        )}
-
         <div ref={chainTop} />
         <VerticalChain data={data} focus={rootId} peek={peeking ? ui.sel : null} line={line} only={only} onSelect={select} onLayout={onLayout} />
+        <div ref={tail} aria-hidden="true" />
 
       </main>
 
-      {/* The dock: what the tapped skill means. In a path it appears only when another card is tapped,
-          and carries no button. */}
+      {/* The dock, in thumb reach, with the chain still visible above it. Three states:
+          a tapped skill (its sentence, and the one button); that skill's path (how many earlier skills
+          it depends on, and the way back); and a card tapped inside a path (just what it means). */}
+      {skill && ui.path && !peeking && (
+        <aside className="pv-dock pv-dock--path" aria-label="This skill's path" aria-live="polite">
+          <h2 className="pv-dock-title">This depends on {plural(count, "earlier skill")}.</h2>
+          <p className="pv-dock-note">{copy.pathNote}</p>
+          <div className="pv-dock-actions">
+            <button type="button" className="pv-ghost" onClick={leavePath}>Back to the full chain</button>
+          </div>
+        </aside>
+      )}
       {skill && (!ui.path || peeking) && (
         <aside className="pv-dock" aria-label="Selected skill" aria-live="polite">
           <p className="pv-dock-line">{skill.line}</p>
@@ -231,7 +254,7 @@ export default function ParentView({ data, onEvent = null, onFocus = null, copy:
           {!ui.path && (
             <div className="pv-dock-actions">
               {count > 0
-                ? <button type="button" className="pv-solid" onClick={() => { emit("chain_path", { topic: skill.topic, earlierSkills: count }); go({ path: true }); }}>See the {plural(count, "skill")} under it</button>
+                ? <button type="button" className="pv-solid" onClick={() => { emit("chain_path", { topic: skill.topic, earlierSkills: count }); holdCard(skill.id); go({ path: true }); }}>See the {plural(count, "skill")} it depends on</button>
                 : <p className="pv-dock-note">This is where the chain begins.</p>}
             </div>
           )}
