@@ -45,10 +45,13 @@ export default function SkillsChain() {
     return () => ro.disconnect()
   }, [])
 
-  // The chain's dock is fixed to the bottom of the phone; it steps aside once the form is on screen.
+  // The chain's dock is fixed to the bottom of the phone, so it steps aside for the form. But only once the
+  // form has properly arrived (its top has climbed past the middle of the screen). The form sits directly
+  // under the last skill of a narrowed chain, and the dock there holds the way back to the full chain: if
+  // the form's top edge merely peeking in were enough, that way back would vanish.
   useEffect(() => {
     if (!booking.current || typeof IntersectionObserver === 'undefined') return undefined
-    const io = new IntersectionObserver(([entry]) => setAtForm(entry.isIntersecting), { threshold: 0.05 })
+    const io = new IntersectionObserver(([entry]) => setAtForm(entry.isIntersecting), { rootMargin: '0px 0px -45% 0px' })
     io.observe(booking.current)
     return () => io.disconnect()
   }, [])
