@@ -1,0 +1,120 @@
+/* The parent view. Mobile first; the @media blocks at the end only loosen it.
+   Portable: Simplex brand tokens where the host defines them, the same values as fallbacks.
+   One colour carries meaning: rust = the skills this one depends on. Highlighter = the chosen skill. */
+
+.pv {
+  --pv-ink: var(--ink, #2B2822);
+  --pv-soft: var(--ink-soft, #6E685D);
+  --pv-paper: var(--paper, #FFFFFF);
+  --pv-warm: var(--paper-warm, #FAF7F0);
+  --pv-line: var(--kraft-line, #DDD3C1);
+  --pv-kraft: var(--kraft, #C9B99A);
+  --pv-kraft-deep: var(--kraft-deep, #7D6A48);
+  --pv-wash: var(--kraft-wash, #EFE9DD);
+  --pv-mark: var(--highlighter, #FFD960);
+  --pv-rust: var(--alert, #A3492B);
+  --pv-rust-wash: var(--alert-wash, #F4E4DD);
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  max-width: 1000px;
+  padding-bottom: calc(32px + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  background: var(--pv-warm);
+  color: var(--pv-ink);
+  font-family: "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.45;
+  -webkit-text-size-adjust: 100%;
+  overflow-wrap: anywhere;
+}
+.pv--docked { padding-bottom: calc(210px + env(safe-area-inset-bottom)); }
+.pv *, .pv *::before, .pv *::after { box-sizing: border-box; }
+.pv button, .pv a { font: inherit; color: inherit; touch-action: manipulation; -webkit-tap-highlight-color: transparent; cursor: pointer; }
+.pv button:focus-visible, .pv a:focus-visible { outline: 3px solid var(--pv-ink); outline-offset: 2px; }
+.pv h1, .pv h2, .pv h3, .pv p { margin: 0; }
+.pv-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.pv-top, .pv-hero, .pv-pathintro { margin-left: max(16px, env(safe-area-inset-left)); margin-right: max(16px, env(safe-area-inset-right)); }
+
+/* ── Top and hero ───────────────────────────────────────────────────────── */
+.pv-top { display: flex; align-items: center; justify-content: space-between; min-height: 48px; padding-top: env(safe-area-inset-top); }
+.pv-brand { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--pv-soft); }
+.ch-switch { font: inherit; font-size: 0.85rem; font-weight: 600; min-height: 44px; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--kraft, #C9B99A); background: var(--paper, #fff); color: var(--ink, #2B2822); cursor: pointer; }
+.pv-hero { padding: 4px 0 16px; }
+.pv-hero h1 { font-size: 1.9rem; line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 6px; }
+.pv-hero p { font-size: 1.12rem; }
+
+/* ── Year strip: stays on screen ─────────────────────────────────────────── */
+.pv-toolbar { position: sticky; top: var(--pv-offset, 0px); z-index: 6; background: var(--pv-warm); border-bottom: 1px solid var(--pv-line); padding-top: 8px; }
+.pv-strip { display: flex; gap: 8px; overflow-x: auto; overflow-y: hidden; padding: 2px max(16px, env(safe-area-inset-left)) 8px; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+.pv-strip::-webkit-scrollbar { display: none; }
+/* position: relative keeps the screen-reader-only "Year" label inside the button; without it the label escapes and stretches the page sideways */
+.pv-year, .pv-course { position: relative; flex: 0 0 auto; min-width: 48px; min-height: 46px; padding: 0 14px; border-radius: 999px; border: 1.5px solid var(--pv-kraft); background: var(--pv-paper); font-weight: 700; font-size: 1.02rem; }
+.pv .pv-year[aria-current="true"], .pv .pv-course[aria-current="true"] { background: var(--pv-ink); border-color: var(--pv-ink); color: var(--pv-warm); }
+.pv-course { font-size: 0.92rem; min-height: 44px; }
+
+/* ── The vertical chain ─────────────────────────────────────────────────── */
+.vc { position: relative; width: 100%; }
+.vc-links { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: visible; }
+.vc-link { fill: none; stroke: var(--pv-kraft); stroke-width: 1.6; stroke-linecap: round; transition: opacity 0.18s, stroke 0.18s; }
+.vc-link--dim { opacity: 0.2; }
+.vc-link--below { stroke: var(--pv-rust); stroke-width: 2.6; }
+.vc-arrow { fill: var(--pv-kraft-deep); stroke: none; }
+.vc-arrow--below { fill: var(--pv-rust); }
+
+/* no z-index on the band: it must not become a stacking context, or its pinned header is trapped under the cards */
+.vc-band { position: absolute; left: 0; right: 0; background: var(--pv-paper); }
+.vc-band--alt { background: var(--pv-warm); }
+.vc-band-head { position: sticky; top: calc(var(--pv-offset, 0px) + var(--pv-toolbar-h, 0px)); z-index: 4; display: flex; align-items: center; min-height: 40px; padding: 0 max(16px, env(safe-area-inset-left)); background: var(--pv-ink); color: var(--pv-warm); font-size: 1rem; font-weight: 700; }
+
+.vc-card { position: absolute; left: 0; top: 0; z-index: 2; display: flex; align-items: center; padding: 6px 10px; border-radius: 10px; border: 1.5px solid var(--pv-kraft); background: var(--pv-wash); text-align: left; overflow: hidden; transition: opacity 0.18s, box-shadow 0.18s; }
+.pv .vc-card--spine { background: var(--pv-ink); border-color: var(--pv-ink); color: var(--pv-warm); }
+.vc-topic { font-size: 0.84rem; line-height: 1.2; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.vc-card:active { filter: brightness(0.94); }
+.vc-card--dim { opacity: 0.24; }
+.vc-card--below { box-shadow: 0 0 0 3px var(--pv-rust); }
+.vc-card--peek { box-shadow: 0 0 0 4px var(--pv-mark); }
+.vc-card--focus { box-shadow: 0 0 0 4px var(--pv-mark), 0 0 0 6px var(--pv-ink); opacity: 1; }
+
+/* ── Path introduction ──────────────────────────────────────────────────── */
+.pv-pathintro { margin-top: 16px; margin-bottom: 16px; padding: 16px; border-radius: 14px; background: var(--pv-rust-wash); border-left: 5px solid var(--pv-rust); display: grid; gap: 10px; }
+.pv-pathintro h2 { font-size: 1.35rem; line-height: 1.2; }
+.pv-pathfor { font-weight: 700; color: var(--pv-rust); }
+.pv-solid, .pv-ghost { min-height: 52px; padding: 0 16px; border-radius: 12px; font-weight: 700; }
+.pv .pv-solid { border: 2px solid var(--pv-ink); background: var(--pv-ink); color: var(--pv-warm); }
+.pv-ghost { border: 2px solid var(--pv-ink); background: var(--pv-paper); }
+
+/* ── Dock: the chosen skill, in thumb reach, chain still visible ────────── */
+.pv-dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; margin: 0 auto; max-width: 680px; display: grid; grid-template-columns: 1fr 48px; gap: 10px 8px; align-items: start; padding: 16px max(16px, env(safe-area-inset-left)) calc(14px + env(safe-area-inset-bottom)); background: var(--pv-paper); border-radius: 18px 18px 0 0; box-shadow: 0 -6px 28px rgba(43, 40, 34, 0.22); animation: pv-rise 0.22s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.pv-dock-line { font-weight: 700; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.pv-dock-close { width: 48px; height: 48px; border: 0; border-radius: 50%; background: var(--pv-wash); font-size: 1.6rem; line-height: 1; }
+.pv-dock-actions { grid-column: 1 / -1; display: grid; }
+.pv-dock-note { color: var(--pv-soft); }
+
+@keyframes pv-rise { from { transform: translateY(40%); opacity: 0.6; } }
+@media (prefers-reduced-motion: reduce) {
+  .pv-dock { animation: none; }
+  .vc-card, .vc-link { transition: none; }
+}
+
+/* ── Bigger screens ─────────────────────────────────────────────────────── */
+@media (min-width: 700px) {
+  .pv-hero h1 { font-size: 2.4rem; }
+  .pv-pathintro { justify-items: start; }
+  .vc-topic { font-size: 0.9rem; }
+}
+/* Short screens (a phone on its side): the toolbar scrolls away and the dock becomes one row. */
+@media (max-height: 520px) {
+  .pv-toolbar { position: static; }
+  .pv-dock { grid-template-columns: 1fr auto 48px; align-items: center; padding-top: 8px; padding-bottom: calc(8px + env(safe-area-inset-bottom)); max-width: none; border-radius: 14px 14px 0 0; }
+  .pv-dock-line { -webkit-line-clamp: 2; font-size: 0.95rem; }
+  .pv-dock-actions { grid-column: 2; grid-row: 1; }
+  .pv-dock-close { grid-column: 3; grid-row: 1; }
+  .pv-solid { min-height: 46px; }
+  .pv--docked { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
+}
+@media (max-width: 350px) {
+  .pv-hero h1 { font-size: 1.6rem; }
+  .vc-topic { font-size: 0.78rem; }
+}

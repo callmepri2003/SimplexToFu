@@ -40,3 +40,23 @@ npm test               # all test suites
 npm run build && npm run preview                      # http://localhost:4173
 CYPRESS_BASE_URL=http://localhost:4173 CYPRESS_PRERENDERED=true npm run test:e2e
 ```
+
+## The maths skills chain (`/maths-skills-chain`)
+
+All of school maths, Kindergarten to Year 12, as one chain a parent can tap through on a phone: tap the skill a child is stuck on and see every earlier skill it depends on. The booking form underneath is the page's one call to action, and it carries the skill the parent was looking at into the lead.
+
+**Two rules, both enforced by tests.** The chain never tells a parent where their child's gap is (no quiz, no verdict), and the chain component itself sells nothing (no link, no button, no mention of a diagnostic). It was cut down on purpose for a tired parent; resist adding to it.
+
+| What | Where |
+|---|---|
+| The chain component (shared with simplexResourcesV4, keep the two copies identical) | `src/chain/ParentView.jsx`, `VerticalChain.jsx`, `verticalLayout.js`, `parent.css` |
+| How it sits in this site: tokens, header offset, the prerendered plain-text version | `src/chain/host.css`, `page.css`, `ChainIsland.jsx`, `fallback.js`, `fallbackStore.js`, `src/pages/SkillsChain.jsx` |
+| Every word on the page that is not the chain, including the form's wording | `src/data/skillsChainCopy.js` |
+| The data | `src/data/skillsChain.json` |
+
+**Updating the chain.** It is authored in the sibling repo `simplexSkillsChain`. Run `npm run render` there, then `npm run sync:chain` here, commit and deploy. Only the parent-safe export may be synced: `src/data/skillsChain.test.js` fails the build if diagnostic test statements, syllabus codes or internal notes ever appear in the file.
+
+**How it loads.** The component and its data live in their own chunk, fetched on this route only, so no other page pays for them. The build prerenders the page as a plain list of every stage and skill for search engines; the interactive chain replaces it in the browser.
+
+Background and what is left to decide: [docs/skills-chain-integration-plan.md](docs/skills-chain-integration-plan.md).
+

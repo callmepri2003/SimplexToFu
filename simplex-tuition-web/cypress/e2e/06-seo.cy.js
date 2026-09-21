@@ -75,8 +75,9 @@ prerendered('Prerendered HTML', () => {
       expect(res.body).to.contain(`Sitemap: ${ORIGIN}/sitemap.xml`)
     })
     cy.request('/sitemap.xml').its('body').should((xml) => {
-      expect(xml.match(/<loc>/g)).to.have.length(10)
+      expect(xml.match(/<loc>/g)).to.have.length(11)
       expect(xml).to.contain(`<loc>${ORIGIN}/tutoring/liverpool</loc>`)
+      expect(xml).to.contain(`<loc>${ORIGIN}/maths-skills-chain</loc>`)
       expect(xml).to.contain('<lastmod>')
       expect(xml).not.to.contain('thank-you')
     })

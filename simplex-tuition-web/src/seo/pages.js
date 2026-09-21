@@ -1,5 +1,6 @@
 import { FAQS, PHONE, PHONE_DISPLAY, REVIEW_COUNT } from '../data/content'
 import { locations, getLocation } from '../data/locations'
+import { CHAIN_PATH } from '../data/skillsChainCopy'
 
 // Per-page <head> data as plain functions, so the same values feed useSeo in
 // the browser and the build-time prerender (scripts/prerender.js). Crawlers
@@ -104,6 +105,21 @@ export function locationSeo(loc) {
   }
 }
 
+export function chainSeo() {
+  const canonical = `${ORIGIN}${CHAIN_PATH}`
+  return {
+    title: 'The Maths Skills Chain, Kindergarten to Year 12 | Simplex Tuition',
+    description: 'Every maths skill from Kindergarten to Year 12 on one chain, in plain words. Tap the skill your child finds hard and see the earlier skills it depends on. NSW syllabus.',
+    canonical,
+    ogTitle: 'Stuck in maths? See why.',
+    ogDescription: 'All of school maths as one chain. Tap the skill your child finds hard and see what it depends on.',
+    jsonLd: graph(
+      businessNode(),
+      breadcrumbNode([['Home', `${ORIGIN}/`], ['Maths skills chain', canonical]]),
+    ),
+  }
+}
+
 export function thankYouSeo() {
   return {
     title: 'Thanks — we’ll call you within 24 hours | Simplex Tuition',
@@ -121,12 +137,13 @@ export function notFoundSeo() {
 }
 
 // Every path the build writes to static HTML, and the subset worth indexing.
-export const INDEXABLE_PATHS = ['/', '/tutoring', ...locations.map((l) => `/tutoring/${l.slug}`)]
+export const INDEXABLE_PATHS = ['/', '/tutoring', ...locations.map((l) => `/tutoring/${l.slug}`), CHAIN_PATH]
 export const PRERENDER_PATHS = [...INDEXABLE_PATHS, '/thank-you']
 
 export function seoForPath(path) {
   if (path === '/') return homeSeo()
   if (path === '/tutoring') return hubSeo()
+  if (path === CHAIN_PATH) return chainSeo()
   if (path === '/thank-you') return thankYouSeo()
   const suburb = path.match(/^\/tutoring\/([^/]+)$/)
   const loc = suburb && getLocation(suburb[1])

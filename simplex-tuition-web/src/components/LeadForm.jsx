@@ -7,9 +7,23 @@ import { buildEnquiry, sendToEnquiriesSheet } from '../utils/enquiries'
 import { whatsappUrl, trackWhatsApp, trackPhone } from '../utils/contact'
 import { ArrowRight, WhatsApp } from './icons'
 
+const FREE_LESSON = {
+  id: 'free-lesson',
+  title: 'Book a free first lesson',
+  submit: 'Book my free lesson',
+  foot: 'Free. No contract.',
+  subject: 'New free lesson request',
+}
+
 // Three required fields and one optional tap. Nothing hidden gates the button:
 // if a required field is empty the browser says which one.
-export default function LeadForm({ location, suburb, title = 'Book a free first lesson', dark = false }) {
+//
+// `offer` swaps the wording when the form is asking for something other than the free lesson.
+// `context` is what the page already knows about why the parent is here (the maths skills chain
+// passes the skill they were looking at and the year they tapped). It is shown back to them,
+// suggests the year, and travels with the lead so the first call starts in the right place.
+export default function LeadForm({ location, suburb, title, dark = false, offer: offerOverride = null, context = null }) {
+  const offer = { ...FREE_LESSON, ...offerOverride, ...(title ? { title } : {}) }
   const navigate = useNavigate()
   const [form, setForm] = useState({ name: '', phone: '', yearLevel: '' })
   const [gotcha, setGotcha] = useState('')
@@ -23,6 +37,10 @@ export default function LeadForm({ location, suburb, title = 'Book a free first 
     started.current = true
     trackEvent('form_started', { location })
   }
+
+  // A year tapped on the chain is a suggestion: anything the parent chooses here wins.
+  const yearLevel = form.yearLevel || (YEAR_LEVELS.includes(context?.year) ? context.year : '')
+  const stuckOn = context?.stuckOn ?? ''
 
   const update = (field, value) => {
     markStarted()
@@ -47,19 +65,22 @@ export default function LeadForm({ location, suburb, title = 'Book a free first 
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           ...form,
+          yearLevel,
           concern: concernLabel,
+          offer: offer.id,
+          ...(stuckOn ? { stuck_on: stuckOn, earlier_skills: context.earlierSkills ?? '' } : {}),
           form_location: location,
           ...(suburb ? { suburb } : {}),
           ...attribution,
           _gotcha: gotcha,
-          _subject: `New free lesson request — ${form.name} (${form.yearLevel}) · ${attribution.channel_detail}`,
+          _subject: `${offer.subject} — ${form.name} (${yearLevel})${stuckOn ? ` · stuck on ${stuckOn}` : ''} · ${attribution.channel_detail}`,
         }),
       })
       if (!res.ok) throw new Error('Submission failed')
       // Bots fill the hidden field; Formspree discards those, so don't log them either.
-      if (!gotcha) sendToEnquiriesSheet(buildEnquiry({ form, concern: concernLabel, location, suburb, attribution }))
-      trackLead({ location, concern, year_level: form.yearLevel, channel: attribution.channel, channel_detail: attribution.channel_detail })
-      navigate('/thank-you')
+      if (!gotcha) sendToEnquiriesSheet(buildEnquiry({ form: { ...form, yearLevel }, concern: concernLabel, location, suburb, attribution, stuckOn }))
+      trackLead({ location, concern, year_level: yearLevel, offer: offer.id, channel: attribution.channel, channel_detail: attribution.channel_detail })
+      navigate('/thank-you', { state: { offer: offer.id } })
     } catch {
       trackEvent('form_error', { location })
       setError(`Sorry, that didn't send. Please try again, or call ${PHONE_DISPLAY}.`)
@@ -71,8 +92,10 @@ export default function LeadForm({ location, suburb, title = 'Book a free first 
 
   return (
     <form className={`lead-form${dark ? ' on-dark' : ''}`} onSubmit={handleSubmit} data-cy={`lead-form-${location}`}>
-      <h3 className="lead-title">{title}</h3>
+      <h3 className="lead-title">{offer.title}</h3>
       <p className="lead-sub">Leave your number and we'll call you back within 24 hours to find a time.</p>
+
+      {stuckOn && <p className="lead-context" data-cy="form-context">You were looking at: <strong>{stuckOn}</strong></p>}
 
       <div className="field">
         <label htmlFor={id('name')}>Your name</label>
@@ -86,7 +109,7 @@ export default function LeadForm({ location, suburb, title = 'Book a free first 
         </div>
         <div className="field">
           <label htmlFor={id('year')}>Child's year</label>
-          <select id={id('year')} value={form.yearLevel} onChange={(e) => update('yearLevel', e.target.value)} data-cy="form-year-level" required>
+          <select id={id('year')} value={yearLevel} onChange={(e) => update('yearLevel', e.target.value)} data-cy="form-year-level" required>
             <option value="">Choose</option>
             {YEAR_LEVELS.map((y) => <option key={y} value={y}>{y}</option>)}
           </select>
@@ -117,11 +140,11 @@ export default function LeadForm({ location, suburb, title = 'Book a free first 
       {error && <p className="form-error" role="alert" data-cy="form-error">{error}</p>}
 
       <button type="submit" className="btn btn-primary btn-block" disabled={submitting} data-cy="form-submit">
-        {submitting ? 'Sending…' : 'Book my free lesson'} {!submitting && <ArrowRight />}
+        {submitting ? 'Sending…' : offer.submit} {!submitting && <ArrowRight />}
       </button>
 
       <p className="lead-foot">
-        Free. No contract. Rather text?{' '}
+        {offer.foot ? `${offer.foot} ` : ''}Rather text?{' '}
         <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer" onClick={() => trackWhatsApp(`form-${location}`)} data-cy="form-whatsapp">
           <WhatsApp /> WhatsApp us
         </a>

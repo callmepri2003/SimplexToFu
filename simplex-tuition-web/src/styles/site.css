@@ -143,6 +143,7 @@ section[id], main[id] { scroll-margin-top: 84px; }
 }
 .lead-title { font-size: 26px; }
 .lead-sub { color: var(--ink-2); font-size: 16px; margin: 6px 0 20px; }
+.lead-context { margin: 0 0 14px; padding: 8px 12px; border-left: 3px solid var(--hl); background: rgba(255, 217, 96, .14); border-radius: 0 var(--r-sm) var(--r-sm) 0; font-size: .95rem; }
 .field { margin-bottom: 16px; border: 0; padding: 0; min-width: 0; }
 .field label, .field legend { display: block; font-weight: 600; font-size: 16px; margin-bottom: 6px; padding: 0; }
 .optional { font-weight: 400; color: var(--ink-2); }
