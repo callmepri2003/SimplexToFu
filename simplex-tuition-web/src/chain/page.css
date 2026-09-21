@@ -1,0 +1,4 @@
+/* What the map page shows before the map itself has loaded. */
+.chain-static { max-width: 760px; min-height: 60vh; margin: 0 auto; padding: 22px 16px 40px; }
+.chain-static h1 { font-size: 1.9rem; line-height: 1.1; letter-spacing: -0.015em; margin: 0 0 6px; }
+.chain-static > p { font-size: 1.12rem; margin: 0 0 18px; }

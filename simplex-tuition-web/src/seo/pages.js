@@ -1,5 +1,6 @@
 import { FAQS, PHONE, PHONE_DISPLAY, REVIEW_COUNT } from '../data/content'
 import { locations, getLocation } from '../data/locations'
+import { CHAIN_PATH, MAP_PATH } from '../data/skillsChainCopy'
 
 // Per-page <head> data as plain functions, so the same values feed useSeo in
 // the browser and the build-time prerender (scripts/prerender.js). Crawlers
@@ -104,6 +105,31 @@ export function locationSeo(loc) {
   }
 }
 
+// Where the content leads: the page that gives the maths skills map in exchange for an email.
+export function mapLandingSeo() {
+  const canonical = `${ORIGIN}${MAP_PATH}`
+  return {
+    title: 'What Your Child Should Know in Maths, Year by Year | Free NSW Skills Map',
+    description: 'Every maths skill from Kindergarten to Year 12 on one free map, in plain words. Tap a skill to see the earlier skills it depends on. Follows the NSW syllabus. By Simplex Tuition, Austral.',
+    canonical,
+    ogTitle: 'What your child should know in maths, year by year',
+    ogDescription: 'The whole of school maths on one free map, in plain words. See the roots of whatever your child is working on.',
+    jsonLd: graph(
+      businessNode(),
+      breadcrumbNode([['Home', `${ORIGIN}/`], ['Maths skills map', canonical]]),
+    ),
+  }
+}
+
+// The map itself is what the email is exchanged for, so it stays out of the index.
+export function chainSeo() {
+  return {
+    title: 'The Maths Skills Map | Simplex Tuition',
+    description: 'The maths skills map from Simplex Tuition: every maths skill from Kindergarten to Year 12, and what each one depends on.',
+    robots: NOINDEX,
+  }
+}
+
 export function thankYouSeo() {
   return {
     title: 'Thanks — we’ll call you within 24 hours | Simplex Tuition',
@@ -121,12 +147,15 @@ export function notFoundSeo() {
 }
 
 // Every path the build writes to static HTML, and the subset worth indexing.
-export const INDEXABLE_PATHS = ['/', '/tutoring', ...locations.map((l) => `/tutoring/${l.slug}`)]
-export const PRERENDER_PATHS = [...INDEXABLE_PATHS, '/thank-you']
+export const INDEXABLE_PATHS = ['/', '/tutoring', ...locations.map((l) => `/tutoring/${l.slug}`), MAP_PATH]
+// The map page is prerendered (every route needs its own file on Vercel) but not indexed.
+export const PRERENDER_PATHS = [...INDEXABLE_PATHS, CHAIN_PATH, '/thank-you']
 
 export function seoForPath(path) {
   if (path === '/') return homeSeo()
   if (path === '/tutoring') return hubSeo()
+  if (path === MAP_PATH) return mapLandingSeo()
+  if (path === CHAIN_PATH) return chainSeo()
   if (path === '/thank-you') return thankYouSeo()
   const suburb = path.match(/^\/tutoring\/([^/]+)$/)
   const loc = suburb && getLocation(suburb[1])

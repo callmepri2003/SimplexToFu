@@ -8,6 +8,7 @@
     "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.js",
     "lint": "eslint .",
     "preview": "vite preview",
+    "sync:chain": "node scripts/sync-chain.js",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
     "test:component": "cypress run --component",

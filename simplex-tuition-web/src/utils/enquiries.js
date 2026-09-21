@@ -11,7 +11,7 @@ const MAX = 200
 
 const clip = (v) => String(v ?? '').slice(0, MAX)
 
-export function buildEnquiry({ form, concern, location, suburb, attribution }) {
+export function buildEnquiry({ form, concern, location, suburb, attribution, stuckOn = '' }) {
   return {
     token: import.meta.env.VITE_ENQUIRIES_TOKEN ?? '',
     name: clip(form.name),
@@ -24,6 +24,9 @@ export function buildEnquiry({ form, concern, location, suburb, attribution }) {
     formLocation: clip(location),
     suburb: clip(suburb),
     landingPage: clip(attribution.landing_page),
+    // From the maths skills chain: the skill the parent was looking at. The sheet ignores
+    // fields it has no column for, so this is safe before the Apps Script is updated.
+    stuckOn: clip(stuckOn),
   }
 }
 

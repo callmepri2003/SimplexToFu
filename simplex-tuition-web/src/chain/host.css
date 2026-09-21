@@ -1,0 +1,22 @@
+/* How the chain sits inside this site. parent.css is shared with another repo and must not
+   be edited for site reasons; site reasons go here. */
+
+/* This site's tokens. Note --paper means beige here and white in the chain's other home,
+   so the chain's surfaces are pointed at --panel explicitly. */
+.chain-page .pv {
+  --pv-paper: var(--panel);
+  --pv-warm: var(--bg);
+  --pv-soft: var(--ink-2);
+  --pv-line: var(--line);
+  --pv-wash: var(--kraft-soft);
+  --pv-mark: var(--hl);
+  --pv-rust: var(--alert);
+  min-height: 60vh;
+  padding-bottom: 32px;
+}
+.chain-page .pv--docked { padding-bottom: 210px; }
+.chain-page .pv-hero { padding-top: 22px; }
+
+/* The dock is fixed to the bottom of the phone. Once the booking form scrolls into view it
+   would sit on top of the form, so it steps aside. */
+.chain-page--booking .pv-dock { display: none; }

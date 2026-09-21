@@ -1,0 +1,67 @@
+/* The maths skills map landing page (/maths-map). Tokens only, as everywhere else: no hex here.
+   Section grounds alternate --bg and --panel and the page ends on the one dark section, per
+   WEBSITE_GUIDELINES §2. No motion beyond the site's 1px hover lift (§11). */
+
+/* ── The email form: the one thing on this page that floats ─────────────── */
+.map-form { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(20px, 3vw, 28px); box-shadow: var(--shadow); margin-top: 28px; max-width: 520px; }
+.map-form.on-dark { border-color: transparent; color: var(--ink); margin-top: 0; max-width: none; }
+.map-form .field { margin-bottom: 12px; }
+.map-form-foot { margin-top: 12px; font-size: 16px; font-weight: 600; text-align: center; }
+.map-form-privacy { margin-top: 4px; font-size: 15px; color: var(--ink-2); text-align: center; }
+.map-form-back { font-weight: 700; font-size: 20px; margin-bottom: 14px; }
+.map-hero .hero-proof { margin-top: 22px; }
+.map-hero .hero-grid { align-items: start; grid-template-columns: 1.2fr .8fr; }
+/* A shorter headline block than the home page's, so the form's button lands in the first screen on a laptop too. */
+.map-hero { padding-top: clamp(28px, 4vw, 52px); }
+.map-hero h1 { font-size: clamp(38px, 4.6vw, 56px); }
+.map-hero .hero-sub { margin-top: 16px; }
+.map-hero .map-form { margin-top: 22px; }
+
+/* ── One real line of the chain, as the map draws it ────────────────────── */
+.map-line { margin: 0; padding-top: 8px; }
+.map-line ol { list-style: none; position: relative; display: grid; gap: 22px; max-width: 360px; margin-inline: auto; }
+.map-line ol::before { content: ""; position: absolute; left: 50%; top: 10px; bottom: 10px; width: 2px; background: var(--ink); transform: translateX(-50%); }
+.map-line li { position: relative; background: var(--ink); color: var(--inverse); border-radius: var(--r-md); padding: 12px 16px; font-weight: 700; font-size: 17px; line-height: 1.25; }
+.map-line li span { display: block; font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .72; margin-bottom: 3px; }
+.map-line li:last-child { background: var(--hl); color: var(--ink); outline: 2px solid var(--ink); outline-offset: 3px; }
+.map-line .margin-note { margin-top: 28px; }
+
+/* ── Try it ─────────────────────────────────────────────────────────────── */
+.map-try { background: var(--panel); border-block: 1px solid var(--line); }
+.map-chips { margin-bottom: 28px; }
+.map-chips .chip { min-height: 44px; padding: 8px 18px; font-size: 17px; }
+.map-try-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(28px, 5vw, 64px); align-items: start; }
+.map-strip { background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(20px, 3vw, 30px); }
+.map-strip-head { font-size: clamp(22px, 2.6vw, 28px); font-weight: 800; line-height: 1.2; letter-spacing: -.01em; }
+.map-strip-head strong { display: block; }
+.map-stages { list-style: none; margin-top: 22px; padding-left: 22px; border-left: 2px solid var(--ink); display: grid; gap: 18px; }
+.map-stages > li { position: relative; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: baseline; }
+.map-stages > li::before { content: ""; position: absolute; left: -29px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--panel); border: 2px solid var(--ink); }
+.map-stage-label { font-size: 14px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.map-stage-count { font-weight: 700; font-size: 16px; white-space: nowrap; }
+.map-names { grid-column: 1 / -1; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.map-names li { padding: 5px 11px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line); font-size: 15px; line-height: 1.25; }
+.map-names .map-hidden { border-style: dashed; border-color: var(--ink-2); color: var(--ink-2); background: transparent; font-weight: 600; }
+.map-stage-target::before { background: var(--ink) !important; }
+.map-target { grid-column: 1 / -1; justify-self: start; padding: 8px 14px; border-radius: var(--r-md); background: var(--hl); border: 2px solid var(--ink); font-weight: 800; font-size: 18px; line-height: 1.2; }
+.map-try-cta > p { font-size: 20px; }
+.map-try-cta .map-form { margin-top: 20px; }
+
+/* ── What is on the map ─────────────────────────────────────────────────── */
+.map-inside { background: var(--panel); border-block: 1px solid var(--line); }
+.map-points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.map-point { background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 28px; }
+.map-point h3 { font-size: 22px; margin-bottom: 10px; }
+
+/* ── Local proof ────────────────────────────────────────────────────────── */
+.map-proof-wrap { max-width: 820px; }
+.map-proof .review blockquote { font-size: 20px; }
+.map-proof .inline-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 12px; font-weight: 600; }
+
+@media (max-width: 900px) {
+  .map-hero .hero-grid { grid-template-columns: 1fr; }
+  .map-try-grid { grid-template-columns: 1fr; }
+  .map-form { max-width: none; }
+  .map-line { margin-top: 12px; }
+}
+@media (max-width: 860px) { .map-points { grid-template-columns: 1fr; } }

@@ -1,0 +1,261 @@
+{
+ "skills": 142,
+ "stages": 9,
+ "topics": [
+  {
+   "id": "M-34-07",
+   "chip": "Times tables",
+   "topic": "All multiplication and division facts to 10 × 10",
+   "label": "All multiplication and division facts to 10 × 10",
+   "stage": "Years 3 and 4",
+   "count": 5,
+   "stages": [
+    {
+     "label": "Kindergarten to Year 2",
+     "count": 4,
+     "names": [
+      "Counting and numbers to 20",
+      "Two-digit numbers: tens and ones"
+     ]
+    },
+    {
+     "label": "Years 3 and 4",
+     "count": 1,
+     "names": [
+      "Multiplication facts for 2, 4, 5 and 10"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M-56-09",
+   "chip": "Fractions",
+   "topic": "Adding and subtracting fractions",
+   "label": "Adding and subtracting fractions",
+   "stage": "Years 5 and 6",
+   "count": 10,
+   "stages": [
+    {
+     "label": "Kindergarten to Year 2",
+     "count": 5,
+     "names": [
+      "Counting and numbers to 20",
+      "Two-digit numbers: tens and ones"
+     ]
+    },
+    {
+     "label": "Years 3 and 4",
+     "count": 4,
+     "names": [
+      "Multiplication facts for 2, 4, 5 and 10",
+      "All multiplication and division facts to 10 × 10"
+     ]
+    },
+    {
+     "label": "Years 5 and 6",
+     "count": 1,
+     "names": [
+      "Comparing fractions and equivalence"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M-78-04",
+   "chip": "Percentages",
+   "topic": "Percentages",
+   "label": "Percentages",
+   "stage": "Years 7 and 8",
+   "count": 30,
+   "stages": [
+    {
+     "label": "Kindergarten to Year 2",
+     "count": 10,
+     "names": [
+      "Counting and numbers to 20",
+      "Combining and separating within 10"
+     ]
+    },
+    {
+     "label": "Years 3 and 4",
+     "count": 10,
+     "names": [
+      "Place value to 10 000 and beyond",
+      "Mental addition and subtraction to 1000"
+     ]
+    },
+    {
+     "label": "Years 5 and 6",
+     "count": 8,
+     "names": [
+      "Percentages and their link to fractions and decimals",
+      "Decimals to thousandths"
+     ]
+    },
+    {
+     "label": "Years 7 and 8",
+     "count": 2,
+     "names": [
+      "Multiplying and dividing fractions and decimals, and rounding",
+      "Fractions"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M-78-08",
+   "chip": "Algebra",
+   "topic": "Algebraic expressions: writing, substituting and simplifying",
+   "label": "Algebraic expressions",
+   "stage": "Years 7 and 8",
+   "count": 20,
+   "stages": [
+    {
+     "label": "Kindergarten to Year 2",
+     "count": 10,
+     "names": [
+      "Counting and numbers to 20",
+      "Combining and separating within 10"
+     ]
+    },
+    {
+     "label": "Years 3 and 4",
+     "count": 7,
+     "names": [
+      "Place value to 10 000 and beyond",
+      "Mental addition and subtraction to 1000"
+     ]
+    },
+    {
+     "label": "Years 5 and 6",
+     "count": 2,
+     "names": [
+      "Order of operations, number sentences and pattern rules",
+      "Negative numbers and the number plane"
+     ]
+    },
+    {
+     "label": "Years 7 and 8",
+     "count": 1,
+     "names": [
+      "Negative numbers"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M-78-10",
+   "chip": "Equations",
+   "topic": "Solving equations",
+   "label": "Solving equations",
+   "stage": "Years 7 and 8",
+   "count": 29,
+   "stages": [
+    {
+     "label": "Kindergarten to Year 2",
+     "count": 11,
+     "names": [
+      "Counting and numbers to 20",
+      "Combining and separating within 10"
+     ]
+    },
+    {
+     "label": "Years 3 and 4",
+     "count": 9,
+     "names": [
+      "Equality and missing numbers",
+      "Place value to 10 000 and beyond"
+     ]
+    },
+    {
+     "label": "Years 5 and 6",
+     "count": 5,
+     "names": [
+      "Factors, multiples and prime numbers",
+      "Order of operations, number sentences and pattern rules"
+     ]
+    },
+    {
+     "label": "Years 7 and 8",
+     "count": 4,
+     "names": [
+      "Fractions",
+      "Powers, prime factors and roots"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M-910-13",
+   "chip": "Trigonometry",
+   "topic": "Right-angled trigonometry",
+   "label": "Right-angled trigonometry",
+   "stage": "Years 9 and 10",
+   "count": 47,
+   "stages": [
+    {
+     "label": "Kindergarten to Year 2",
+     "count": 11,
+     "names": [
+      "Counting and numbers to 20",
+      "Combining and separating within 10"
+     ]
+    },
+    {
+     "label": "Years 3 and 4",
+     "count": 13,
+     "names": [
+      "Place value to 10 000 and beyond",
+      "Mental addition and subtraction to 1000"
+     ]
+    },
+    {
+     "label": "Years 5 and 6",
+     "count": 10,
+     "names": [
+      "Decimals to thousandths",
+      "Decimal calculations"
+     ]
+    },
+    {
+     "label": "Years 7 and 8",
+     "count": 10,
+     "names": [
+      "Pythagoras' theorem",
+      "Negative numbers"
+     ]
+    },
+    {
+     "label": "Years 9 and 10",
+     "count": 3,
+     "names": [
+      "Linear equations, formulas and inequalities",
+      "Similar and congruent figures, and geometric proof"
+     ]
+    }
+   ]
+  }
+ ],
+ "heroLine": [
+  {
+   "label": "Equivalent fractions and fractions greater than one",
+   "stage": "Years 3 and 4"
+  },
+  {
+   "label": "Comparing fractions and equivalence",
+   "stage": "Years 5 and 6"
+  },
+  {
+   "label": "Adding and subtracting fractions",
+   "stage": "Years 5 and 6"
+  },
+  {
+   "label": "Fractions",
+   "stage": "Years 7 and 8"
+  },
+  {
+   "label": "Expanding and algebraic fractions",
+   "stage": "Years 9 and 10"
+  }
+ ]
+}
