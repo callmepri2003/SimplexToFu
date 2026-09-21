@@ -13,11 +13,17 @@ import NextSteps from '../components/sections/NextSteps'
 import FAQ from '../components/sections/FAQ'
 import FinalCta from '../components/sections/FinalCta'
 import { FAQS } from '../data/content'
+import { homeSeo } from '../seo/pages'
+import { useSeo } from '../hooks/useSeo'
+
+const SEO = homeSeo()
 
 // Section order follows AVATAR_MASTER §10: recognition → keep-them-on-track
 // promise → anti-classroom → seen-it-happening photos → local proof →
 // tutor credentials & WWCC → free lesson.
 export default function Home() {
+  useSeo(SEO)
+
   return (
     <>
       <Header />

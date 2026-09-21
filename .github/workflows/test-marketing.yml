@@ -47,6 +47,8 @@ jobs:
         env:
           VITE_FORMSPREE_URL: https://formspree.io/f/xlddjnre
           CYPRESS_BASE_URL: http://localhost:4173
+          # The preview server serves the prerendered build, so the raw-HTML SEO checks run.
+          CYPRESS_PRERENDERED: true
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

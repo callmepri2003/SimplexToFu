@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useParams, Link, Navigate } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import MobileBar from '../components/MobileBar'
@@ -12,69 +12,27 @@ import Tutors from '../components/sections/Tutors'
 import NextSteps from '../components/sections/NextSteps'
 import FAQ from '../components/sections/FAQ'
 import FinalCta from '../components/sections/FinalCta'
+import NotFound from './NotFound'
 import { getLocation } from '../data/locations'
-import { FAQS, PHONE, PHONE_DISPLAY, REVIEW_COUNT } from '../data/content'
+import { locationSeo, locationFaqs } from '../seo/pages'
 import { useSeo } from '../hooks/useSeo'
-
-const ORIGIN = 'https://simplextuition.com.au'
 
 function listSchools(schools) {
   if (schools.length === 1) return schools[0]
   return `${schools.slice(0, -1).join(', ')} and ${schools[schools.length - 1]}`
 }
 
-const SHARED_FAQ_QUESTIONS = ['How much does it cost?', 'Is it really one-on-one?', 'Is the first lesson really free?', 'Will my child feel pushed?']
-
-function buildFaqs(loc) {
-  return [loc.faq, ...FAQS.filter((f) => SHARED_FAQ_QUESTIONS.includes(f.q))]
-}
-
+// An unknown suburb is a real not-found (404.html in production), not a
+// redirect: redirecting made every mistyped URL look like a live page.
 export default function LocationPage() {
   const { suburb } = useParams()
   const loc = getLocation(suburb)
+  return loc ? <SuburbPage loc={loc} /> : <NotFound />
+}
 
-  const seo = useMemo(() => {
-    if (!loc) return {}
-    const canonical = `${ORIGIN}/tutoring/${loc.slug}`
-    const faqs = buildFaqs(loc)
-    return {
-      title: `Maths & English Tutoring in ${loc.name} | Simplex Tuition`,
-      description: `One-on-one maths and English tutoring in ${loc.name} (${loc.postcode}), Kindergarten to Year 12. Same tutor every week, at our Austral space or in your home. Free first lesson — call ${PHONE_DISPLAY}.`,
-      canonical,
-      jsonLd: {
-        '@context': 'https://schema.org',
-        '@graph': [
-          {
-            '@type': ['LocalBusiness', 'EducationalOrganization'],
-            '@id': `${canonical}#business`,
-            name: 'Simplex Tuition',
-            url: canonical,
-            telephone: PHONE,
-            image: `${ORIGIN}/brand/end-card-1920x1080.png`,
-            address: { '@type': 'PostalAddress', addressLocality: 'Austral', addressRegion: 'NSW', postalCode: '2179', addressCountry: 'AU' },
-            areaServed: { '@type': 'Place', name: `${loc.name}, NSW ${loc.postcode}` },
-            aggregateRating: { '@type': 'AggregateRating', ratingValue: '5', reviewCount: String(REVIEW_COUNT) },
-          },
-          {
-            '@type': 'BreadcrumbList',
-            itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'Home', item: `${ORIGIN}/` },
-              { '@type': 'ListItem', position: 2, name: 'Tutoring', item: `${ORIGIN}/tutoring` },
-              { '@type': 'ListItem', position: 3, name: loc.name, item: canonical },
-            ],
-          },
-          {
-            '@type': 'FAQPage',
-            mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
-          },
-        ],
-      },
-    }
-  }, [loc])
-
+function SuburbPage({ loc }) {
+  const seo = useMemo(() => locationSeo(loc), [loc])
   useSeo(seo)
-
-  if (!loc) return <Navigate to="/tutoring" replace />
 
   return (
     <>
@@ -108,7 +66,7 @@ export default function LocationPage() {
         <Reviews />
         <Tutors />
         <NextSteps />
-        <FAQ title={`Tutoring in ${loc.name}, answered.`} items={buildFaqs(loc)} />
+        <FAQ title={`Tutoring in ${loc.name}, answered.`} items={locationFaqs(loc)} />
         <FinalCta suburb={loc.name} />
       </main>
       <Footer />

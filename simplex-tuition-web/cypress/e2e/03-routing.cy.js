@@ -29,9 +29,20 @@ describe('Routing', () => {
     cy.url().should('include', '/thank-you')
   })
 
-  it('an unknown suburb redirects to /tutoring', () => {
-    cy.visit('/tutoring/nowhere')
+  it('an unknown suburb shows the not-found page, with a way back', () => {
+    cy.visit('/tutoring/nowhere', { failOnStatusCode: false })
+    cy.get('[data-cy="not-found-page"]').should('be.visible')
+    cy.contains('See the suburbs we tutor in').click()
     cy.url().should('match', /\/tutoring$/)
+    cy.get('[data-cy="suburb-list"]').should('be.visible')
+  })
+
+  it('an unknown URL shows the not-found page instead of the home page', () => {
+    cy.visit('/no-such-page', { failOnStatusCode: false })
+    cy.get('[data-cy="not-found-page"]').should('be.visible')
+    cy.get('[data-cy="hero-headline"]').should('not.exist')
+    cy.contains('Go to the home page').click()
+    cy.url().should('eq', Cypress.config().baseUrl + '/')
   })
 
   it('retired /diagnostic sends visitors home', () => {

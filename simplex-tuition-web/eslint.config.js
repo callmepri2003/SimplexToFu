@@ -5,7 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'dist-ssr']),
   {
     files: ['**/*.{js,jsx}'],
     extends: [
@@ -27,6 +27,11 @@ export default defineConfig([
     },
   },
   {
+    // Build-time only (never loaded by the dev server), so fast refresh doesn't apply.
+    files: ['src/entry-server.jsx'],
+    rules: { 'react-refresh/only-export-components': 'off' },
+  },
+  {
     files: ['**/*.test.js', 'src/test/**'],
     languageOptions: { globals: { ...globals.vitest } },
   },
@@ -35,7 +40,7 @@ export default defineConfig([
     languageOptions: { globals: { ...globals.mocha, ...globals.node, cy: 'readonly', Cypress: 'readonly', expect: 'readonly', assert: 'readonly' } },
   },
   {
-    files: ['cypress.config.js', 'vite.config.js', 'vitest.config.js'],
+    files: ['cypress.config.js', 'vite.config.js', 'vitest.config.js', 'scripts/**'],
     languageOptions: { globals: globals.node },
     rules: { 'no-unused-vars': 'off' },
   },

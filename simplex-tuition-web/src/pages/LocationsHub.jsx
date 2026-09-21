@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -8,38 +7,15 @@ import NextSteps from '../components/sections/NextSteps'
 import FinalCta from '../components/sections/FinalCta'
 import { locations } from '../data/locations'
 import { PHONE, PHONE_DISPLAY } from '../data/content'
+import { hubSeo } from '../seo/pages'
 import { useSeo } from '../hooks/useSeo'
 import { trackPhone } from '../utils/contact'
 import { ArrowRight } from '../components/icons'
 
-const ORIGIN = 'https://simplextuition.com.au'
+const SEO = hubSeo()
 
 export default function LocationsHub() {
-  const seo = useMemo(() => ({
-    title: 'Maths & English Tutoring in South-West Sydney | Simplex Tuition',
-    description: 'One-on-one maths and English tutoring across south-west Sydney: Austral, Leppington, Edmondson Park, Carnes Hill, Prestons, Liverpool and more. At our Austral space or in your home. Free first lesson.',
-    canonical: `${ORIGIN}/tutoring`,
-    jsonLd: {
-      '@context': 'https://schema.org',
-      '@graph': [
-        {
-          '@type': 'BreadcrumbList',
-          itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Home', item: `${ORIGIN}/` },
-            { '@type': 'ListItem', position: 2, name: 'Tutoring', item: `${ORIGIN}/tutoring` },
-          ],
-        },
-        {
-          '@type': 'ItemList',
-          itemListElement: locations.map((l, i) => ({
-            '@type': 'ListItem', position: i + 1, name: `Tutoring in ${l.name}`, url: `${ORIGIN}/tutoring/${l.slug}`,
-          })),
-        },
-      ],
-    },
-  }), [])
-
-  useSeo(seo)
+  useSeo(SEO)
 
   return (
     <>

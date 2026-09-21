@@ -263,6 +263,7 @@ section[id], main[id] { scroll-margin-top: 84px; }
 .print { background: #fff; padding: 10px 10px 0; border-radius: 4px; box-shadow: var(--shadow); }
 .photo-wall li:nth-child(odd) .print { transform: rotate(-1.6deg); }
 .photo-wall li:nth-child(even) .print { transform: rotate(1.2deg); margin-top: 18px; }
+.print picture { display: block; }
 .print img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 2px; background: var(--paper); }
 .print figcaption { font-family: var(--ff-note); font-size: 22px; line-height: 1.1; text-align: center; padding: 10px 4px 12px; }
 .print.taped::before { width: 84px; height: 24px; top: -11px; }

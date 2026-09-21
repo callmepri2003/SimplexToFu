@@ -31,3 +31,12 @@ npm run test:unit      # Vitest unit tests
 npm run test:e2e       # Cypress E2E
 npm test               # all test suites
 ```
+
+## How pages reach search engines
+
+`npm run build` prerenders every route to its own HTML file (`scripts/prerender.js`), each with its own title, canonical and JSON-LD from `src/seo/pages.js`, then writes `404.html` and `sitemap.xml`. Adding a suburb to `src/data/locations.js` adds its page and sitemap entry. To test the built site the way CI does:
+
+```bash
+npm run build && npm run preview                      # http://localhost:4173
+CYPRESS_BASE_URL=http://localhost:4173 CYPRESS_PRERENDERED=true npm run test:e2e
+```

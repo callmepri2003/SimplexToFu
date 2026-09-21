@@ -1,27 +1,29 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { createRoot, hydrateRoot } from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
 import './styles/site.css'
-import Home from './pages/Home'
-import ThankYou from './pages/ThankYou'
-import LocationsHub from './pages/LocationsHub'
-import LocationPage from './pages/LocationPage'
-import RouteTracker from './components/RouteTracker'
+import App from './App'
 import { captureAttribution } from './utils/attribution'
 
 captureAttribution()
 
-createRoot(document.getElementById('root')).render(
+const container = document.getElementById('root')
+const app = (
   <StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/tutoring" element={<LocationsHub />} />
-        <Route path="/tutoring/:suburb" element={<LocationPage />} />
-        <Route path="/thank-you" element={<ThankYou />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-      <RouteTracker />
+      <App />
     </BrowserRouter>
   </StrictMode>
 )
+
+// The build prerenders each route and stamps #root with the path it rendered
+// ("404" for the not-found page). Hydrate only when that markup is for this
+// URL; a dev server or SPA fallback serves other markup, so render fresh.
+const prerendered = container.dataset.prerendered
+const here = window.location.pathname.replace(/(.)\/$/, '$1')
+if (prerendered && (prerendered === here || prerendered === '404')) {
+  hydrateRoot(container, app)
+} else {
+  container.textContent = ''
+  createRoot(container).render(app)
+}

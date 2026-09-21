@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,11 +9,12 @@
   <title>Simplex Tuition — One-on-One Maths & English Tutoring, Austral</title>
   <meta name="description" content="One-on-one maths and English tutoring in Austral and nearby suburbs, Kindergarten to Year 12. Same tutor every week, at our space or in your home. Book a free first lesson." />
   <meta name="keywords" content="tutoring Austral, maths tutor Sydney, English tutor, HSC tutoring, selective school prep, primary school tutor, Sydney south west tutor" />
-  <link rel="canonical" href="https://simplextuition.com.au" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://simplextuition.com.au/" />
 
   <!-- Open Graph (WhatsApp, Facebook previews) -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://simplextuition.com.au" />
+  <meta property="og:url" content="https://simplextuition.com.au/" />
   <meta property="og:title" content="Simplex Tuition — Keep them on track" />
   <meta property="og:description" content="One-on-one maths and English tutoring in Austral, K–12. Same tutor every week. Your first lesson is free." />
   <meta property="og:image" content="https://simplextuition.com.au/brand/end-card-1920x1080.png" />
@@ -34,66 +35,14 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&family=Caveat:wght@700&family=Noto+Naskh+Arabic:wght@600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet" />
+  <!-- Arabic script is one greeting below the fold, so it loads without blocking first paint. -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@600&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@600&display=swap" rel="stylesheet" /></noscript>
 
-  <!-- Structured data — Local Business -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Simplex Tuition",
-    "description": "One-on-one Maths and English tutoring for Kindergarten to Year 12 in Austral, NSW. Same tutor every week, at our Austral space or in your home.",
-    "url": "https://simplextuition.com.au",
-    "telephone": "+61452330300",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Austral",
-      "addressLocality": "Austral",
-      "addressRegion": "NSW",
-      "postalCode": "2179",
-      "addressCountry": "AU"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": -33.9185,
-      "longitude": 150.8199
-    },
-    "areaServed": [
-      "Austral", "Leppington", "Edmondson Park", "Carnes Hill", "Hoxton Park",
-      "Middleton Grange", "Prestons", "West Hoxton", "Liverpool"
-    ],
-        "image": "https://simplextuition.com.au/brand/end-card-1920x1080.png",
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-        "opens": "15:00",
-        "closes": "20:00"
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Saturday","Sunday"],
-        "opens": "08:00",
-        "closes": "18:00"
-      }
-    ],
-    "review": {
-      "@type": "Review",
-      "reviewRating": {
-        "@type": "Rating",
-        "ratingValue": "5",
-        "bestRating": "5"
-      },
-      "reviewBody": "Helped me get from 37% to 76% in Advanced Maths. Highly recommended.",
-      "author": { "@type": "Person", "name": "Google Reviewer" }
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "5",
-      "reviewCount": "13"
-    }
-  }
-  </script>
+  <!-- Title, description, robots, canonical, og:* and twitter:* above are the
+       homepage defaults. The build rewrites them per page and adds that page's
+       JSON-LD (src/seo/html.js); useSeo keeps them current after navigation. -->
 
   <!-- Meta Pixel -->
   <script>

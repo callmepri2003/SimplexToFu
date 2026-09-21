@@ -1,69 +1,59 @@
 import { useEffect } from 'react'
 
-const DEFAULT_TITLE = 'Simplex Tuition — Maths & English Tutoring, Austral Sydney'
-const DEFAULT_CANONICAL = 'https://simplextuition.com.au'
-
-// Imperatively manage per-page <head> (title, meta, canonical, JSON-LD) for the
-// client-rendered pages. Googlebot renders the DOM after JS and reads these.
-// Everything is restored on unmount so pages don't leak tags into each other.
-export function useSeo({ title, description, canonical, jsonLd }) {
+// Keeps <head> in step with the page after a client-side navigation. The first
+// load already has the right tags baked in by the prerender (src/seo/html.js);
+// this hook writes the same values, so every page must call it.
+// Pass a stable object (module constant or useMemo), not a fresh literal.
+export function useSeo(seo) {
   useEffect(() => {
-    const prevTitle = document.title
-    if (title) document.title = title
+    const head = document.head
 
-    const touched = []
-    const upsertMeta = (attr, key, value) => {
-      if (!value) return
-      let el = document.head.querySelector(`meta[${attr}="${key}"]`)
-      const created = !el
-      if (created) {
+    const setMeta = (attr, key, value) => {
+      let el = head.querySelector(`meta[${attr}="${key}"]`)
+      if (!value) {
+        if (el) el.remove()
+        return
+      }
+      if (!el) {
         el = document.createElement('meta')
         el.setAttribute(attr, key)
-        document.head.appendChild(el)
+        head.appendChild(el)
       }
-      touched.push({ el, created, prev: el.getAttribute('content') })
       el.setAttribute('content', value)
     }
 
-    upsertMeta('name', 'description', description)
-    upsertMeta('property', 'og:title', title)
-    upsertMeta('property', 'og:description', description)
-    upsertMeta('property', 'og:url', canonical)
-    upsertMeta('name', 'twitter:title', title)
-    upsertMeta('name', 'twitter:description', description)
+    document.title = seo.title
+    setMeta('name', 'description', seo.description)
+    setMeta('name', 'robots', seo.robots || 'index, follow')
+    setMeta('property', 'og:title', seo.ogTitle || seo.title)
+    setMeta('property', 'og:description', seo.ogDescription || seo.description)
+    setMeta('property', 'og:url', seo.canonical)
+    setMeta('name', 'twitter:title', seo.ogTitle || seo.title)
+    setMeta('name', 'twitter:description', seo.ogDescription || seo.description)
 
-    let canonicalEl = document.head.querySelector('link[rel="canonical"]')
-    const prevCanonical = canonicalEl ? canonicalEl.getAttribute('href') : null
-    if (canonical) {
+    let canonicalEl = head.querySelector('link[rel="canonical"]')
+    if (!seo.canonical) {
+      if (canonicalEl) canonicalEl.remove()
+    } else {
       if (!canonicalEl) {
         canonicalEl = document.createElement('link')
         canonicalEl.setAttribute('rel', 'canonical')
-        document.head.appendChild(canonicalEl)
+        head.appendChild(canonicalEl)
       }
-      canonicalEl.setAttribute('href', canonical)
+      canonicalEl.setAttribute('href', seo.canonical)
     }
 
-    // Remove any page-scoped JSON-LD left behind, then add this page's.
-    document.head.querySelectorAll('script[data-page-jsonld]').forEach((s) => s.remove())
-    let ldScript
-    if (jsonLd) {
-      ldScript = document.createElement('script')
+    // Replace whichever page's JSON-LD is there (prerendered or from the last route).
+    const clearJsonLd = () => head.querySelectorAll('script[data-page-jsonld]').forEach((s) => s.remove())
+    clearJsonLd()
+    if (seo.jsonLd) {
+      const ldScript = document.createElement('script')
       ldScript.type = 'application/ld+json'
       ldScript.setAttribute('data-page-jsonld', 'true')
-      ldScript.textContent = JSON.stringify(jsonLd)
-      document.head.appendChild(ldScript)
+      ldScript.textContent = JSON.stringify(seo.jsonLd)
+      head.appendChild(ldScript)
     }
 
-    return () => {
-      document.title = prevTitle
-      touched.forEach(({ el, created, prev }) => {
-        if (created) el.remove()
-        else if (prev !== null) el.setAttribute('content', prev)
-      })
-      if (canonicalEl) canonicalEl.setAttribute('href', prevCanonical || DEFAULT_CANONICAL)
-      if (ldScript) ldScript.remove()
-    }
-  }, [title, description, canonical, jsonLd])
+    return clearJsonLd
+  }, [seo])
 }
-
-export { DEFAULT_TITLE, DEFAULT_CANONICAL }

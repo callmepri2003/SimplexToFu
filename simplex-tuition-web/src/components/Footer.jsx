@@ -29,7 +29,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="foot-bottom">
-          <span>&copy; {new Date().getFullYear()} Simplex Tuition</span>
+          <span suppressHydrationWarning>&copy; {new Date().getFullYear()} Simplex Tuition</span>
           <span>All tutors hold a Working With Children Check</span>
         </div>
       </div>
