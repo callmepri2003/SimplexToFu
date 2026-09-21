@@ -1,5 +1,8 @@
 const MOBILE = { viewportWidth: 390, viewportHeight: 844 }
-const PAGE = '/maths-skills-chain'
+const PAGE = '/maths-map/open'
+// The map is given in exchange for an email (see 08-skills-map-landing). These tests are about the map
+// itself, so they arrive the way a family does when a tutor texts them a link.
+const OPEN = `${PAGE}?pass=family`
 const EQUATIONS = 'Solve an equation such as 2x − 5 = 11'
 
 // The chain is drawn after the page loads, from its own chunk.
@@ -8,7 +11,7 @@ const card = (label) => cy.contains('.vc-card', label)
 
 describe('Maths skills chain — a parent on a phone', MOBILE, () => {
   beforeEach(() => {
-    cy.visit(PAGE)
+    cy.visit(OPEN)
     chain().should('have.length.greaterThan', 100)
   })
 
@@ -96,7 +99,7 @@ describe('Maths skills chain — a parent on a phone', MOBILE, () => {
   })
 
   it('a link to one skill’s path opens on that path', () => {
-    cy.visit(`${PAGE}#path=M-56-10`)
+    cy.visit(`${OPEN}#path=M-56-10`)
     cy.get('.pv-dock--path', { timeout: 15000 }).should('contain', 'earlier skills')
     cy.contains('.vc-card--focus', 'Fraction of a quantity').should('be.visible')
   })
@@ -115,13 +118,13 @@ describe('Maths skills chain — everywhere else is unchanged', () => {
 
 const prerendered = Cypress.env('PRERENDERED') ? describe : describe.skip
 
-prerendered('Maths skills chain — prerendered HTML', () => {
-  it('gives crawlers every stage and skill in plain words, with its own head', () => {
+prerendered('Maths skills map — prerendered HTML', () => {
+  // The map is what the email is exchanged for, so the file a crawler receives holds none of it.
+  it('keeps the map out of the index and out of the page source', () => {
     cy.request(PAGE).its('body').should((html) => {
-      expect(html).to.contain('<title>The Maths Skills Chain, Kindergarten to Year 12 | Simplex Tuition</title>')
-      expect(html).to.contain('<link rel="canonical" href="https://simplextuition.com.au/maths-skills-chain" />')
-      expect(html).to.contain('<h2>Years 5 and 6</h2>')
-      expect(html).to.contain('Work out 3/4 of $20 in their head.')
+      expect(html).to.contain('<title>The Maths Skills Map | Simplex Tuition</title>')
+      expect(html).to.contain('content="noindex, follow"')
+      expect(html).not.to.contain('Work out 3/4 of')
       expect(html).not.to.match(/can_do|\bMA4-|M-78-10/)
     })
   })

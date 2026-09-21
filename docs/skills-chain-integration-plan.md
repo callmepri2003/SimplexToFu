@@ -7,6 +7,8 @@
 > - **Prerendering:** the component is never rendered on the server. The build writes a plain list of every stage and skill into the page; the browser swaps in the interactive chain. The chain's data is not in the main bundle.
 > - **Ownership:** both repos still hold a copy of the component, kept identical. Deleting the simplexResourcesV4 copy remains open.
 >
+> **Update, 2026-09-22 (later): the map is now behind an email.** Content leads to a new landing page, `/maths-map`, which asks for an email and then opens the map, now at `/maths-map/open` (was `/maths-skills-chain`). Consequences, all deliberate: the map page is `noindex` and its prerendered HTML no longer lists the skills, so the "plain list for crawlers" described in Phase 1 below is gone and the landing page is the indexed page instead; the per-skill SEO pages suggested in Phase 4 would now conflict with the email exchange and should not be built without rethinking it. The brand rules the two pages bend are written down in `cowork/brand/WEBSITE_GUIDELINES.md` §14.
+>
 > **Still needs the owner before going live:** the wording in `src/data/skillsChainCopy.js` (decision 1 below: what a diagnostic actually is), and a "Stuck on" column in the Enquiries sheet's Apps Script (the field is already sent; the sheet ignores it until the column exists). The site header's button still reads "Book a free lesson" on this page and scrolls to the diagnostic form.
 
 Written 2026-09-21. For the owner, and for whoever (person or Claude Code session) builds it in this repo.

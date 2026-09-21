@@ -77,7 +77,8 @@ prerendered('Prerendered HTML', () => {
     cy.request('/sitemap.xml').its('body').should((xml) => {
       expect(xml.match(/<loc>/g)).to.have.length(11)
       expect(xml).to.contain(`<loc>${ORIGIN}/tutoring/liverpool</loc>`)
-      expect(xml).to.contain(`<loc>${ORIGIN}/maths-skills-chain</loc>`)
+      expect(xml).to.contain(`<loc>${ORIGIN}/maths-map</loc>`)
+      expect(xml).not.to.contain('/maths-map/open') // the map itself is exchanged for an email, so it is not indexed
       expect(xml).to.contain('<lastmod>')
       expect(xml).not.to.contain('thank-you')
     })

@@ -1,17 +1,24 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import LeadForm from '../components/LeadForm'
 import { trackEvent } from '../hooks/useAnalytics'
 import { useSeo } from '../hooks/useSeo'
 import { chainSeo } from '../seo/pages'
-import { getChainFallback } from '../chain/fallbackStore'
-import { CHAIN_BOOK, CHAIN_COPY, DIAGNOSTIC_OFFER } from '../data/skillsChainCopy'
+import { CHAIN_BOOK, CHAIN_COPY, DIAGNOSTIC_OFFER, MAP_PATH } from '../data/skillsChainCopy'
+import { useMapAccess } from '../hooks/useMapAccess'
+import { grantMapAccess, hasMapAccess, passFromSearch, safeNext } from '../utils/mapAccess'
 import '../chain/page.css'
 
 const SEO = chainSeo()
 
-// The maths skills chain: all of school maths as one chain, for a parent on a phone.
+// The maths skills map: all of school maths as one chain, for a parent on a phone.
+//
+// It is given in exchange for an email on the landing page (MAP_PATH). A visitor without access
+// is sent there, and brought back to the same spot on the map afterwards. A link from a tutor
+// (?pass=…) lets a family straight in. Because the map is the thing being exchanged, this page
+// is not indexed and the prerendered HTML holds none of the skills.
 //
 // The chain sells nothing. It shows a parent how many earlier skills sit under the one
 // their child is stuck on, and leaves "which one is it?" open. The form underneath is
@@ -21,18 +28,29 @@ export default function SkillsChain() {
   useSeo(SEO)
   const page = useRef(null)
   const booking = useRef(null)
+  const navigate = useNavigate()
+  const { search, hash } = useLocation()
+  const allowed = useMapAccess()
   const [Island, setIsland] = useState(null)
   const [focus, setFocus] = useState(null) // the skill whose chain the parent has lit up
   const [year, setYear] = useState('')
   const [atForm, setAtForm] = useState(false)
 
-  // The chain measures the screen, so it only ever runs in the browser. Until it arrives the
-  // prerendered list below stands in for it.
+  // Access lives in the browser, so this can only be decided after the page has loaded.
   useEffect(() => {
+    if (passFromSearch(search)) grantMapAccess('pass')
+    if (hasMapAccess()) return
+    const next = safeNext(hash)
+    navigate(`${MAP_PATH}${next ? `?next=${encodeURIComponent(next)}` : ''}`, { replace: true })
+  }, [search, hash, navigate])
+
+  // The chain measures the screen, so it only ever runs in the browser.
+  useEffect(() => {
+    if (!allowed) return undefined
     let live = true
     import('../chain/ChainIsland').then((m) => { if (live) setIsland(() => m.default) })
     return () => { live = false }
-  }, [])
+  }, [allowed])
 
   // The chain pins its year strip under the site header, so it needs the header's height.
   useEffect(() => {
@@ -70,10 +88,7 @@ export default function SkillsChain() {
           : (
             <div className="chain-static">
               <h1>{CHAIN_COPY.title}</h1>
-              <p>{CHAIN_COPY.lead}</p>
-              {/* Filled in at build time only. In the browser this is an empty string, and React
-                  leaves the prerendered HTML in place until the chain replaces this whole block. */}
-              <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: getChainFallback() }} />
+              <p>{allowed ? 'Opening the map…' : <>The map is free. <Link to={MAP_PATH}>Get the maths skills map</Link>.</>}</p>
             </div>
           )}
 
