@@ -30,6 +30,28 @@ export function buildEnquiry({ form, concern, location, suburb, attribution, stu
   }
 }
 
+// A Groundwork booking needs an answer, because the script refuses a slot that was taken in the
+// meantime (`slot_taken`). Apps Script answers a text/plain POST after a redirect, which browsers
+// follow and read when the request is a plain CORS one. If the answer cannot be read at all
+// (blocked, offline), this resolves to null and the caller books on the strength of its own
+// pre-check: a clash then shows in the calendar rather than on the page.
+export async function bookSlot(enquiry) {
+  const url = import.meta.env.VITE_ENQUIRIES_WEBHOOK_URL
+  if (!url) return null
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      redirect: 'follow',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(enquiry),
+    })
+    const data = await res.json()
+    return data && typeof data.ok === 'boolean' ? data : null
+  } catch {
+    return null
+  }
+}
+
 export function sendToEnquiriesSheet(enquiry) {
   const url = import.meta.env.VITE_ENQUIRIES_WEBHOOK_URL
   if (!url) return

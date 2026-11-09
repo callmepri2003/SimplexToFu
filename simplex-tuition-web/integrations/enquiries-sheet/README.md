@@ -39,3 +39,16 @@ The site only ever writes `Google`, `Facebook` or `Other`, matching the sheet's 
 | Google Business Profile → Appointment link | `https://simplextuition.com.au/?utm_source=google&utm_medium=organic&utm_campaign=gbp&utm_content=appointment#book` |
 | Door sign / flyer QR code | `https://simplextuition.com.au/?utm_source=qr&utm_medium=print&utm_campaign=door-sign` (change `door-sign` to `flyer`, `stall`…) |
 | Facebook / Instagram ad | `https://simplextuition.com.au/?utm_source=facebook&utm_medium=paid&utm_campaign=<campaign-name>` |
+
+## Groundwork bookings → Google Calendar (added Oct 2026)
+
+The `/groundwork` page lets a parent pick her own day and time. The same script handles it:
+
+- **POST** with `slotStart` (ISO, Sydney offset) also fills **Trial Date (F)** on the Enquiries row and creates a **one-hour event in the default Google Calendar** of the account the script runs as, titled `Groundwork diagnostic · <child> (<year>)`, located at the parent's address or at 27 Carnamah Rd, with phone, email and source in the description. Nothing is confirmed by phone or text afterwards: the booking on the page is the booking in the diary.
+- **Double bookings:** the script checks the calendar for an overlapping Groundwork event *inside its lock* before writing anything, and answers `{ ok: false, error: 'slot_taken' }`; the page then redraws the calendar and asks her to pick again. The page also re-reads taken slots right before submitting.
+- **Confirmation:** when the parent gives an email she is added as a guest with `sendInvites`, so Google emails her the invite (time, address, add-to-calendar) and its own reminders. No separate email tool is needed. SMS is not wired: see the brain's Groundwork project note for the recommendation.
+- **GET** (no token) returns `{ taken: [ISO starts] }` for Groundwork events in the next 21 days, so the page greys out slots already booked. Set `VITE_BOOKINGS_URL` in Vercel to the same `/exec` URL. Leave it blank and every slot shows (clashes then show up in the calendar, not on the page).
+
+**Redeploy after pasting the new `Code.gs`** (Deploy → Manage deployments → edit → New version). The first run asks for a Calendar permission: approve it. The calendar used is the default calendar of whoever deploys the script, so deploy from the Simplex Google account whose calendar Pri actually checks.
+
+Hours the page offers are in `src/utils/slots.js` (weekdays 4–7pm, Saturdays 9–11am and 1–3pm, from tomorrow, two weeks ahead, no Sundays). Change them there; the unit test pins them.

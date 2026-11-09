@@ -1,0 +1,137 @@
+/* The Groundwork landing page (/groundwork): where the direct-offer ad lands. Tokens only, no hex.
+   Section grounds alternate --bg and --panel and the page ends on the one dark section, which
+   holds the booking (WEBSITE_GUIDELINES §2). The highlighter swipe is in the h1 only (§3). */
+
+/* ── Above the fold: say it, show the video, one button ─────────────────── */
+.gw-hero .gw-hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+/* A longer headline than the home page's, so smaller: the button must still land in the first screen on a laptop. */
+.gw-hero { padding-top: clamp(28px, 4vw, 48px); }
+.gw-hero h1 { font-size: clamp(32px, 4vw, 48px); margin-top: 10px; }
+.gw-hero .hero-sub { color: var(--ink-2); font-size: clamp(18px, 1.7vw, 20px); margin-top: 18px; }
+.gw-cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 28px; }
+.gw-cta-note { font-size: 15px; color: var(--ink-2); }
+/* The hero visual: a paper card of a child's map, with the play button over it. */
+.gw-preview { width: 100%; max-width: 440px; justify-self: center; display: flex; flex-direction: column; gap: 12px; }
+.gw-preview-map { position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 22px 22px 22px 18px; box-shadow: var(--shadow); display: grid; gap: 12px; transform: rotate(-1.2deg); }
+.gw-preview-row { display: grid; grid-template-columns: 58px 1fr; gap: 12px; align-items: center; }
+.gw-preview-band { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); text-align: right; }
+.gw-preview-skills { display: flex; gap: 8px; }
+.gw-preview-skill { display: inline-block; width: 44px; height: 18px; border-radius: 999px; background: var(--success); opacity: .85; }
+.gw-preview-skill.gap { background: var(--alert); position: relative; }
+.gw-preview-skill.gap::after { content: ""; position: absolute; inset: 0; border-radius: 999px; box-shadow: 0 0 0 3px color-mix(in srgb, var(--alert) 25%, transparent); }
+.gw-preview-skill.off { background: var(--line); }
+.gw-play {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(1.2deg);
+  width: 68px; height: 68px; border-radius: 50%; border: 0; background: var(--ink); color: var(--inverse);
+  display: grid; place-items: center; font-size: 26px; cursor: pointer; box-shadow: var(--shadow);
+}
+.gw-play span { margin-left: 4px; }
+.gw-play:hover { background: #000; }
+.gw-preview figcaption { display: flex; flex-direction: column; gap: 2px; padding-left: 6px; }
+.gw-preview figcaption strong { font-size: 17px; }
+.gw-preview figcaption span { font-size: 14px; color: var(--ink-2); }
+
+/* ── What happens in the hour ───────────────────────────────────────────── */
+.gw-hour { background: var(--panel); border-block: 1px solid var(--line); }
+.gw-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.gw-step-item { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; }
+.gw-step-item .step-num { font-size: 36px; width: 36px; transform: rotate(-2deg); }
+.gw-step-item h3 { font-size: 21px; }
+.gw-step-item p { color: var(--ink-2); font-size: 17px; margin-top: 6px; }
+
+/* ── The Jaden story and his chain ──────────────────────────────────────── */
+.gw-story-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(32px, 5vw, 64px); align-items: center; margin-bottom: 36px; }
+.gw-report { padding: clamp(32px, 4vw, 44px) clamp(24px, 3vw, 36px) clamp(24px, 3vw, 30px); transform: rotate(-1.2deg); }
+.gw-report blockquote { font-size: clamp(28px, 3.4vw, 42px); font-weight: 800; line-height: 1.08; letter-spacing: -.015em; margin-top: 10px; }
+.gw-story-copy h2 { font-size: clamp(30px, 4vw, 44px); }
+.gw-story-copy p { margin-top: 16px; }
+.gw-chain { display: flex; flex-wrap: wrap; align-items: center; row-gap: 16px; }
+.gw-node { display: flex; align-items: center; }
+.gw-link { width: 34px; height: 0; border-top: 2px solid var(--kraft); flex: none; }
+.gw-link.broken { border-top-style: dashed; border-top-color: var(--alert); }
+.gw-node-box { display: block; border: 2px solid var(--kraft); background: var(--panel); border-radius: 10px; padding: 10px 14px; font-size: 15px; line-height: 1.25; min-width: 120px; max-width: 180px; }
+.gw-node-box small { display: block; color: var(--ink-2); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 2px; }
+.gw-node.ok .gw-node-box { border-color: var(--success); }
+.gw-node.gap .gw-node-box { border-color: var(--alert); background: color-mix(in srgb, var(--alert) 9%, var(--panel)); }
+.gw-margin { margin: 28px 0 0; text-align: left; max-width: 34ch; }
+
+/* ── Proof ──────────────────────────────────────────────────────────────── */
+.gw-proof { background: var(--panel); border-block: 1px solid var(--line); }
+.gw-reviews { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+/* The FAQ component paints --panel; the proof section above it is --panel too, so give this
+   page's FAQ the page ground to keep the alternating rhythm. */
+.gw .faq-block { background: var(--bg); border-top: 0; }
+
+/* ── The booking: one question at a time, on the one dark section ───────── */
+.gw-final-wrap { display: flex; flex-direction: column; align-items: center; gap: 28px; }
+.gw-final-head { text-align: center; max-width: 640px; }
+.gw-final-head p { font-size: 19px; margin-top: 10px; color: var(--kraft); }
+.gw-book-card { background: var(--panel); color: var(--ink); border-radius: var(--r-lg); padding: clamp(22px, 3.5vw, 32px); box-shadow: var(--shadow); width: 100%; max-width: 640px; display: flex; flex-direction: column; gap: 22px; }
+.gw-progress { display: flex; flex-direction: column; gap: 8px; }
+.gw-progress-label { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; color: var(--ink-2); }
+.gw-progress-bar { height: 8px; background: var(--paper); border-radius: 999px; overflow: hidden; }
+.gw-progress-fill { height: 100%; background: var(--hl); border-radius: 999px; transition: width .15s ease; }
+.gw-step { display: flex; flex-direction: column; gap: 16px; }
+.gw-q { font-size: 26px; font-weight: 800; line-height: 1.15; letter-spacing: -.015em; }
+.gw-q-sm { font-size: 22px; margin-top: 6px; }
+.gw-note { font-size: 16px; color: var(--ink-2); margin-top: -8px; }
+.gw-chips { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.gw-times { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.gw-chip { min-height: 52px; border: 1.5px solid var(--line); border-radius: 10px; background: var(--bg); font-weight: 700; font-size: 16px; cursor: pointer; padding: 8px 10px; }
+.gw-chip:hover { border-color: var(--ink-2); }
+.gw-chip.on { background: var(--hl); border-color: var(--ink); }
+.gw-where { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.gw-opt { min-height: 64px; border: 1.5px solid var(--line); border-radius: 10px; background: var(--bg); cursor: pointer; padding: 10px 14px; text-align: left; display: flex; flex-direction: column; gap: 2px; }
+.gw-opt strong { font-size: 16px; }
+.gw-opt small { font-size: 14px; color: var(--ink-2); }
+.gw-opt:hover { border-color: var(--ink-2); }
+.gw-opt.on { background: var(--hl); border-color: var(--ink); }
+/* The calendar: a strip of days, then the hours on the chosen day. Taken slots stay visible but greyed. */
+.gw-days { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+.gw-day { flex: 0 0 64px; min-height: 76px; border: 1.5px solid var(--line); border-radius: 10px; background: var(--bg); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; scroll-snap-align: start; padding: 6px 4px; }
+.gw-day small { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-2); }
+.gw-day strong { font-size: 22px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.gw-day:hover { border-color: var(--ink-2); }
+.gw-day.on { background: var(--hl); border-color: var(--ink); }
+.gw-day.full, .gw-day:disabled { opacity: .45; cursor: not-allowed; }
+.gw-chip.taken, .gw-chip:disabled { opacity: .4; cursor: not-allowed; text-decoration: line-through; }
+.gw-centre { display: flex; flex-direction: column; gap: 2px; padding: 14px 16px; border-radius: 10px; background: var(--paper); font-size: 16px; }
+.gw-centre strong { font-weight: 700; }
+.gw-centre span { color: var(--ink-2); font-size: 15px; }
+.gw-book-card .field { margin-bottom: 0; }
+.gw-book-card .field input { min-height: 52px; font-size: 18px; }
+.gw-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 4px; }
+.gw-nav .btn { min-width: 140px; }
+.gw-back { background: none; border: 0; font-weight: 600; color: var(--ink-2); cursor: pointer; padding: 10px 0; min-height: 44px; }
+.gw-back:hover { color: var(--ink); }
+.gw-foot { font-size: 15px; color: var(--ink-2); text-align: center; }
+.gw-foot a { color: var(--ink); font-weight: 600; white-space: nowrap; }
+.gw-foot svg { width: 16px; height: 16px; vertical-align: -3px; color: #1f8a4c; }
+.gw-privacy { font-size: 15px; color: var(--kraft); text-align: center; max-width: 520px; }
+
+/* ── Phone ──────────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .gw-hero { padding-top: 24px; }
+  .gw-hero .gw-hero-grid { grid-template-columns: 1fr; gap: 28px; }
+  .gw-hero .eyebrow { font-size: 13px; }
+  .gw-hero h1 { font-size: clamp(30px, 8.6vw, 38px); }
+  .gw-hero .hero-sub { font-size: 18px; margin-top: 14px; }
+  .gw-cta-row { margin-top: 20px; }
+  .gw-cta-row .btn { width: 100%; }
+  .gw-preview { max-width: none; }
+  .gw-preview-map { padding: 16px 14px 16px 10px; gap: 10px; }
+  .gw-preview-row { grid-template-columns: 50px 1fr; gap: 10px; }
+  .gw-preview-skill { width: 36px; height: 16px; }
+  .gw-steps { grid-template-columns: 1fr; gap: 24px; }
+  .gw-story-grid { grid-template-columns: 1fr; }
+  .gw-reviews { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .gw-chips { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .gw-times { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gw-where { grid-template-columns: 1fr; }
+  .gw-link { width: 18px; }
+  .gw-node-box { max-width: 150px; }
+}
+@media (prefers-reduced-motion: reduce) { .gw-progress-fill { transition: none; } }
