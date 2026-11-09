@@ -5,8 +5,10 @@ import LocationsHub from './pages/LocationsHub'
 import LocationPage from './pages/LocationPage'
 import SkillsMapLanding from './pages/SkillsMapLanding'
 import SkillsChain from './pages/SkillsChain'
+import Groundwork from './pages/Groundwork'
 import NotFound from './pages/NotFound'
 import { CHAIN_PATH, MAP_PATH } from './data/skillsChainCopy'
+import { GROUNDWORK_PATH } from './data/groundworkCopy'
 import RouteTracker from './components/RouteTracker'
 
 // Router-agnostic so the browser (BrowserRouter, main.jsx) and the prerender
@@ -20,6 +22,7 @@ export default function App() {
         <Route path="/tutoring/:suburb" element={<LocationPage />} />
         <Route path={MAP_PATH} element={<SkillsMapLanding />} />
         <Route path={CHAIN_PATH} element={<SkillsChain />} />
+        <Route path={GROUNDWORK_PATH} element={<Groundwork />} />
         <Route path="/thank-you" element={<ThankYou />} />
         {/* Retired page. vercel.json 308s it in production; this covers dev. */}
         <Route path="/diagnostic" element={<Navigate to="/" replace />} />

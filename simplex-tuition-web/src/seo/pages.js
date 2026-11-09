@@ -1,6 +1,7 @@
 import { FAQS, PHONE, PHONE_DISPLAY, REVIEW_COUNT } from '../data/content'
 import { locations, getLocation } from '../data/locations'
 import { CHAIN_PATH, MAP_PATH } from '../data/skillsChainCopy'
+import { GROUNDWORK, GROUNDWORK_PATH } from '../data/groundworkCopy'
 
 // Per-page <head> data as plain functions, so the same values feed useSeo in
 // the browser and the build-time prerender (scripts/prerender.js). Crawlers
@@ -121,6 +122,23 @@ export function mapLandingSeo() {
   }
 }
 
+// Where the Groundwork direct-offer ad lands: the free one-hour maths check.
+export function groundworkSeo() {
+  const canonical = `${ORIGIN}${GROUNDWORK_PATH}`
+  return {
+    title: 'Free Maths Diagnostic for Kids Who Are Behind | Simplex Tuition, Austral',
+    description: 'Your child is not bad at maths. They have gaps from younger years that no one looked at. A free one-hour diagnostic finds them, in your home around Austral, Leppington and Edmondson Park, or at our Austral space.',
+    canonical,
+    ogTitle: 'Your child is not bad at maths. They have gaps from younger years that no one looked at.',
+    ogDescription: 'Book a free diagnostic and we will find them. One hour, in your home. You watch on your phone. You keep the results, even if you do not book us.',
+    jsonLd: graph(
+      businessNode(),
+      breadcrumbNode([['Home', `${ORIGIN}/`], ['Free maths diagnostic', canonical]]),
+      faqNode(GROUNDWORK.faqs),
+    ),
+  }
+}
+
 // The map itself is what the email is exchanged for, so it stays out of the index.
 export function chainSeo() {
   return {
@@ -147,7 +165,7 @@ export function notFoundSeo() {
 }
 
 // Every path the build writes to static HTML, and the subset worth indexing.
-export const INDEXABLE_PATHS = ['/', '/tutoring', ...locations.map((l) => `/tutoring/${l.slug}`), MAP_PATH]
+export const INDEXABLE_PATHS = ['/', '/tutoring', ...locations.map((l) => `/tutoring/${l.slug}`), MAP_PATH, GROUNDWORK_PATH]
 // The map page is prerendered (every route needs its own file on Vercel) but not indexed.
 export const PRERENDER_PATHS = [...INDEXABLE_PATHS, CHAIN_PATH, '/thank-you']
 
@@ -156,6 +174,7 @@ export function seoForPath(path) {
   if (path === '/tutoring') return hubSeo()
   if (path === MAP_PATH) return mapLandingSeo()
   if (path === CHAIN_PATH) return chainSeo()
+  if (path === GROUNDWORK_PATH) return groundworkSeo()
   if (path === '/thank-you') return thankYouSeo()
   const suburb = path.match(/^\/tutoring\/([^/]+)$/)
   const loc = suburb && getLocation(suburb[1])
