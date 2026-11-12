@@ -41,10 +41,10 @@ jobs:
         with:
           working-directory: simplex-tuition-web
           build: npm run build
-          # Bind to IPv4 and probe with a GET on the same address: on the runner, "localhost"
-          # resolves to ::1 first and the HEAD probe closed the socket before the server was up.
+          # Bind to IPv4 and probe the same address: on the runner, "localhost"
+          # resolves to ::1 first and the probe closed the socket before the server was up.
           start: npm run preview -- --host 127.0.0.1 --strictPort
-          wait-on: 'http-get://127.0.0.1:4173'
+          wait-on: 'http://127.0.0.1:4173'
           wait-on-timeout: 60
         env:
           VITE_FORMSPREE_URL: https://formspree.io/f/xlddjnre
