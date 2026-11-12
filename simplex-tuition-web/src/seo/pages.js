@@ -2,6 +2,7 @@ import { FAQS, PHONE, PHONE_DISPLAY, REVIEW_COUNT } from '../data/content'
 import { locations, getLocation } from '../data/locations'
 import { CHAIN_PATH, MAP_PATH } from '../data/skillsChainCopy'
 import { GROUNDWORK, GROUNDWORK_PATH } from '../data/groundworkCopy'
+import { WHAT_HAPPENS_NEXT_PATH } from '../data/whatHappensNextCopy'
 
 // Per-page <head> data as plain functions, so the same values feed useSeo in
 // the browser and the build-time prerender (scripts/prerender.js). Crawlers
@@ -148,6 +149,15 @@ export function chainSeo() {
   }
 }
 
+// After the Meta instant form: a parent who has already given her number. Not for search.
+export function whatHappensNextSeo() {
+  return {
+    title: 'Thanks — here is what happens next | Simplex Tuition',
+    description: 'Pri from Simplex will call you today to pick a day and time for the free maths diagnostic. What happens in the hour, and what to have ready.',
+    robots: NOINDEX,
+  }
+}
+
 export function thankYouSeo() {
   return {
     title: 'Thanks — we’ll call you within 24 hours | Simplex Tuition',
@@ -167,7 +177,7 @@ export function notFoundSeo() {
 // Every path the build writes to static HTML, and the subset worth indexing.
 export const INDEXABLE_PATHS = ['/', '/tutoring', ...locations.map((l) => `/tutoring/${l.slug}`), MAP_PATH, GROUNDWORK_PATH]
 // The map page is prerendered (every route needs its own file on Vercel) but not indexed.
-export const PRERENDER_PATHS = [...INDEXABLE_PATHS, CHAIN_PATH, '/thank-you']
+export const PRERENDER_PATHS = [...INDEXABLE_PATHS, CHAIN_PATH, '/thank-you', WHAT_HAPPENS_NEXT_PATH]
 
 export function seoForPath(path) {
   if (path === '/') return homeSeo()
@@ -176,6 +186,7 @@ export function seoForPath(path) {
   if (path === CHAIN_PATH) return chainSeo()
   if (path === GROUNDWORK_PATH) return groundworkSeo()
   if (path === '/thank-you') return thankYouSeo()
+  if (path === WHAT_HAPPENS_NEXT_PATH) return whatHappensNextSeo()
   const suburb = path.match(/^\/tutoring\/([^/]+)$/)
   const loc = suburb && getLocation(suburb[1])
   return loc ? locationSeo(loc) : notFoundSeo()

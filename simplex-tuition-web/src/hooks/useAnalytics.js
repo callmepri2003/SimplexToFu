@@ -18,3 +18,11 @@ export function trackSignup(params = {}) {
   if (typeof window.fbq === 'function') window.fbq('track', 'CompleteRegistration')
 }
 
+
+// A parent reading the page after she has already given her number (the instant-form thank-you
+// screen sends her to /what-happens-next). Not a lead and not a sign-up: Meta's standard
+// ViewContent, so an audience of "leads who kept reading" can be built without touching Lead.
+export function trackViewContent(params = {}) {
+  trackEvent('view_content', params)
+  if (typeof window.fbq === 'function') window.fbq('track', 'ViewContent', params)
+}
