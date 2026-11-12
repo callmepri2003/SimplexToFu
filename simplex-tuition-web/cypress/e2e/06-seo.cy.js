@@ -75,7 +75,11 @@ prerendered('Prerendered HTML', () => {
       expect(res.body).to.contain(`Sitemap: ${ORIGIN}/sitemap.xml`)
     })
     cy.request('/sitemap.xml').its('body').should((xml) => {
-      expect(xml.match(/<loc>/g)).to.have.length(11)
+      // Home, the hub, eight suburbs, the map landing page and /groundwork. Pages a parent reaches
+      // from a form or a text (/thank-you, /what-happens-next, the map itself) stay out.
+      expect(xml.match(/<loc>/g)).to.have.length(12)
+      expect(xml).to.contain(`<loc>${ORIGIN}/groundwork</loc>`)
+      expect(xml).not.to.contain('/what-happens-next')
       expect(xml).to.contain(`<loc>${ORIGIN}/tutoring/liverpool</loc>`)
       expect(xml).to.contain(`<loc>${ORIGIN}/maths-map</loc>`)
       expect(xml).not.to.contain('/maths-map/open') // the map itself is exchanged for an email, so it is not indexed

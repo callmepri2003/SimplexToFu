@@ -112,7 +112,7 @@ describe('Maths skills map — the email comes first', MOBILE, () => {
     cy.get('[data-cy="map-form-map-hero"] [data-cy="map-email"]').type('nadia@example.com{enter}')
     cy.wait('@signup')
     cy.location('pathname').should('eq', MAP)
-    cy.location('hostname').should('eq', 'localhost')
+    cy.location('hostname').should('eq', new URL(Cypress.config('baseUrl')).hostname) // never example.com
   })
 })
 
