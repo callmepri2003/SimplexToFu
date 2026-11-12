@@ -1,47 +1,94 @@
-/* /what-happens-next: where a parent lands after the Meta instant form. Tokens only, no hex.
-   Grounds alternate --bg and --panel and the page ends on the one dark section, which holds
-   the WhatsApp ask (WEBSITE_GUIDELINES §2). One swipe, in the h1 (§3). Reuses the Groundwork
-   page's step list (groundwork.css) so the hour reads the same on both pages. */
+/* /what-happens-next: the Groundwork explainer a parent reads after the Meta instant form.
+   Tokens only, no hex. Grounds alternate --bg and --panel and the page ends on the one dark
+   section (WEBSITE_GUIDELINES §2). One swipe, in the h1 (§3). Reuses the Groundwork page's
+   step number style (groundwork.css) so the hour reads the same on both pages. */
 
 .nx-hero { padding-top: clamp(28px, 4vw, 48px); }
-.nx-hero h1 { font-size: clamp(34px, 4.6vw, 54px); margin-top: 10px; }
-.nx-hero .hero-sub { font-size: clamp(18px, 1.8vw, 21px); margin-top: 18px; max-width: 60ch; }
-.nx-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 28px; }
-.nx-call { font-size: 17px; color: var(--ink-2); }
-.nx-call a { color: var(--ink); font-weight: 700; white-space: nowrap; }
+.nx-hero h1 { font-size: clamp(34px, 4.6vw, 54px); margin-top: 10px; max-width: 18ch; }
+.nx-hero .hero-sub { font-size: clamp(18px, 1.8vw, 21px); margin-top: 18px; max-width: 62ch; }
+.nx-note { margin-top: 18px; font-size: 16px; color: var(--ink-2); }
 
-/* ── Why we start at Kindergarten: the clip from the ad beside the reason ── */
-.nx-why { background: var(--panel); border-block: 1px solid var(--line); }
-.nx-why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
-.nx-why-copy p { margin-top: 16px; }
-.nx-why-copy h2 { font-size: clamp(30px, 4vw, 44px); margin-top: 12px; }
-.nx-clip { margin: 0; justify-self: center; width: 100%; max-width: 360px; }
+.nx .sec-head p:not(.eyebrow) { color: var(--ink); font-size: 18px; margin-top: 14px; }
+.nx .sec-head h2 + p { margin-top: 18px; }
+.nx-sub { font-size: 20px; font-weight: 700; margin: clamp(28px, 4vw, 40px) 0 16px; }
+.nx-two { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+.nx-two h2 { font-size: clamp(30px, 4vw, 44px); margin-top: 12px; }
+.nx-two > div > p { margin-top: 16px; }
+
+/* ── Why years hide the problem: the clip and the three skills ─────────── */
+.nx-years { background: var(--panel); border-block: 1px solid var(--line); }
+.nx-clip { margin: 0; justify-self: center; width: 100%; max-width: 340px; }
 .nx-clip video { display: block; width: 100%; aspect-ratio: 9 / 16; border-radius: var(--r-lg); border: 1px solid var(--line); background: var(--bg); box-shadow: var(--shadow); object-fit: cover; }
 .nx-clip figcaption { margin-top: 10px; font-size: 15px; color: var(--ink-2); text-align: center; }
+.nx-chain { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; counter-reset: none; }
+.nx-chain-item { position: relative; background: var(--bg); border: 2px solid var(--alert); border-radius: var(--r-lg); padding: 18px 20px; display: grid; gap: 6px; }
+.nx-chain-item small { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--alert); }
+.nx-chain-item strong { font-size: 19px; line-height: 1.2; }
+.nx-chain-item span { font-size: 16px; color: var(--ink-2); }
+.nx-chain-item + .nx-chain-item::before { content: "→"; position: absolute; left: -16px; top: 50%; transform: translateY(-50%); font-weight: 800; color: var(--alert); background: var(--panel); padding: 0 2px; }
 
-/* ── The hour: the Groundwork step list, on the page ground ─────────────── */
-.nx-hour .gw-steps { margin-top: 0; }
+/* ── The map: two real skills ───────────────────────────────────────────── */
+.nx-skills { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.nx-skill { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 24px 26px; }
+.nx-skill small { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.nx-skill h4 { font-size: 21px; margin-top: 6px; line-height: 1.2; }
+.nx-skill p { margin-top: 10px; font-size: 17px; }
+.nx-skill .nx-why { color: var(--ink-2); border-top: 1px solid var(--line); padding-top: 10px; }
+.nx-link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 22px; font-weight: 700; }
+.nx-link svg { width: 18px; height: 18px; }
 
-/* The FAQ component paints --panel, which follows the --bg hour section: the rhythm holds. */
+/* ── The diagnostic: six steps ──────────────────────────────────────────── */
+.nx-diag { background: var(--panel); border-block: 1px solid var(--line); }
+.nx-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 32px; }
+.nx-steps li { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
+.nx-steps .step-num { font-size: 36px; width: 36px; transform: rotate(-2deg); }
+.nx-steps h3 { font-size: 20px; }
+.nx-steps p { color: var(--ink-2); font-size: 17px; margin-top: 6px; }
 
-/* ── The dark close: what to have ready, and the WhatsApp ask ───────────── */
-.nx-final-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
+/* ── The program: four parts ────────────────────────────────────────────── */
+.nx-parts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.nx-parts li { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 22px 22px 24px; }
+.nx-part-num { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: var(--inverse); font-weight: 800; font-size: 18px; }
+.nx-parts h3 { font-size: 20px; margin-top: 14px; }
+.nx-parts p { font-size: 16px; margin-top: 8px; color: var(--ink-2); }
+.nx-after { margin-top: 22px; max-width: 70ch; }
+
+/* ── Between lessons · what Groundwork is not ──────────────────────────── */
+.nx-between { background: var(--panel); border-block: 1px solid var(--line); }
+.nx-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.nx-cards-4 { grid-template-columns: repeat(4, 1fr); }
+.nx-card { background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 24px 26px; }
+.nx-between .nx-card { background: var(--bg); }
+.nx-not { background: var(--panel); border-block: 1px solid var(--line); }
+.nx-card h3 { font-size: 20px; }
+.nx-card p { margin-top: 8px; font-size: 17px; color: var(--ink-2); }
+
+/* ── What you see on your phone ─────────────────────────────────────────── */
+.nx-list { display: grid; gap: 12px; }
+.nx-list li { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; font-size: 18px; }
+.nx-list svg { width: 22px; height: 22px; color: var(--success); margin-top: 4px; }
+
+/* The FAQ component paints --panel and follows the --panel "not" section: give it the page ground. */
+.nx .faq-block { background: var(--bg); border-top: 0; }
+
+/* ── The quiet close ────────────────────────────────────────────────────── */
+.nx-final-wrap { max-width: 720px; }
 .nx-final h2 { font-size: clamp(30px, 4vw, 44px); }
-.nx-final-copy > p { margin-top: 14px; font-size: 19px; color: var(--kraft); }
-.nx-final .nx-actions { margin-top: 24px; }
-.nx-final .nx-call { color: var(--kraft); }
-.nx-final .nx-call a { color: var(--inverse); }
-.nx-ready { background: var(--panel); color: var(--ink); border-radius: var(--r-lg); padding: clamp(22px, 3vw, 30px); box-shadow: var(--shadow); }
-.nx-ready h3 { font-size: 20px; }
-.nx-ready ul { margin-top: 14px; display: grid; gap: 10px; }
-.nx-ready li { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; font-size: 17px; }
-.nx-ready li svg { width: 20px; height: 20px; color: var(--success); margin-top: 4px; }
-.nx-ready .nx-where { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 16px; color: var(--ink-2); }
+.nx-final p { margin-top: 14px; font-size: 19px; color: var(--kraft); }
+.nx-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 24px; }
+.nx-call { font-size: 17px; color: var(--kraft); }
+.nx-call a { color: var(--inverse); font-weight: 700; white-space: nowrap; }
 
 @media (max-width: 900px) {
   .nx-hero { padding-top: 24px; }
   .nx-hero h1 { font-size: clamp(30px, 8.6vw, 38px); }
-  .nx-actions .btn { width: 100%; justify-content: center; }
-  .nx-why-grid, .nx-final-grid { grid-template-columns: 1fr; }
+  .nx-two { grid-template-columns: 1fr; }
   .nx-clip { max-width: 300px; }
+  .nx-chain { grid-template-columns: 1fr; }
+  .nx-chain-item + .nx-chain-item::before { content: "↓"; left: 24px; top: -16px; transform: none; }
+  .nx-skills, .nx-steps, .nx-parts, .nx-cards, .nx-cards-4 { grid-template-columns: 1fr; }
+  .nx-actions .btn { width: 100%; justify-content: center; }
+}
+@media (min-width: 901px) and (max-width: 1100px) {
+  .nx-parts, .nx-cards-4 { grid-template-columns: repeat(2, 1fr); }
 }

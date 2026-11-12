@@ -152,8 +152,8 @@ export function chainSeo() {
 // After the Meta instant form: a parent who has already given her number. Not for search.
 export function whatHappensNextSeo() {
   return {
-    title: 'Thanks — here is what happens next | Simplex Tuition',
-    description: 'Pri from Simplex will call you today to pick a day and time for the free maths diagnostic. What happens in the hour, and what to have ready.',
+    title: 'How Groundwork works | Simplex Tuition',
+    description: 'The whole Groundwork maths program, explained: the skills map, what the free diagnostic does step by step, and what the lessons look like if you join.',
     robots: NOINDEX,
   }
 }
