@@ -37,16 +37,26 @@ jobs:
           cache: npm
           cache-dependency-path: simplex-tuition-web/package-lock.json
       - run: npm ci
+      # The action's own start/wait-on probe dies on the runner with "Socket closed before the
+      # connection was established" before any retry, so the server is started and waited for
+      # here, and the action only runs the specs.
+      - run: npm run build
+        env:
+          VITE_FORMSPREE_URL: https://formspree.io/f/xlddjnre
+      - name: Start the preview server
+        run: |
+          nohup npm run preview -- --host 127.0.0.1 --strictPort > preview.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -sf -o /dev/null http://127.0.0.1:4173/; then echo "preview up after ${i}s"; exit 0; fi
+            sleep 1
+          done
+          echo "preview never came up"; cat preview.log; exit 1
       - uses: cypress-io/github-action@v6
         with:
           working-directory: simplex-tuition-web
-          build: npm run build
-          start: npm run preview
-          wait-on: 'http://localhost:4173'
-          wait-on-timeout: 60
+          install: false
         env:
-          VITE_FORMSPREE_URL: https://formspree.io/f/xlddjnre
-          CYPRESS_BASE_URL: http://localhost:4173
+          CYPRESS_BASE_URL: http://127.0.0.1:4173
           # The preview server serves the prerendered build, so the raw-HTML SEO checks run.
           CYPRESS_PRERENDERED: true
       - uses: actions/upload-artifact@v4
